@@ -131,33 +131,162 @@ const OT_VERSE_MAPPINGS: VerseMapping[] = [
 ];
 
 // NEW TESTAMENT VERSES - mapped to their correct locations
+// Multiple verses per book to cover the demo's first 3 chapters per book
 const NT_VERSE_MAPPINGS: VerseMapping[] = [
-  { book: 'Matthew', chapter: 5, verse: 16, text: 'In the same way, let your light shine before others, that they may see your good deeds and glorify your Father in heaven.' },
-  { book: 'Mark', chapter: 12, verse: 30, text: 'Love the Lord your God with all your heart and with all your soul and with all your mind and with all your strength.' },
+  // Matthew (Chapters 1-3 shown in demo)
+  { book: 'Matthew', chapter: 1, verse: 1, text: 'This is the genealogy of Jesus the Messiah the son of David, the son of Abraham.' },
+  { book: 'Matthew', chapter: 1, verse: 21, text: 'She will give birth to a son, and you are to give him the name Jesus, because he will save his people from their sins.' },
+  { book: 'Matthew', chapter: 2, verse: 1, text: 'After Jesus was born in Bethlehem in Judea, during the time of King Herod, Magi from the east came to Jerusalem.' },
+  { book: 'Matthew', chapter: 2, verse: 10, text: 'When they saw the star, they were overjoyed.' },
+  { book: 'Matthew', chapter: 3, verse: 16, text: 'As soon as Jesus was baptized, he went up out of the water. At that moment heaven was opened, and he saw the Spirit of God descending like a dove.' },
+  { book: 'Matthew', chapter: 3, verse: 17, text: 'And a voice from heaven said, "This is my Son, whom I love; with him I am well pleased."' },
+
+  // Mark (Chapters 1-3)
+  { book: 'Mark', chapter: 1, verse: 1, text: 'The beginning of the gospel about Jesus the Messiah, the Son of God, as it is written in Isaiah the prophet.' },
+  { book: 'Mark', chapter: 1, verse: 15, text: 'The time has come, he said. The kingdom of God has come near. Repent and believe the good news!' },
+  { book: 'Mark', chapter: 2, verse: 5, text: 'When Jesus saw their faith, he said to the paralyzed man, "Son, your sins are forgiven."' },
+  { book: 'Mark', chapter: 2, verse: 17, text: 'On hearing this, Jesus said to them, "It is not the healthy who need a doctor, but the sick."' },
+  { book: 'Mark', chapter: 3, verse: 35, text: 'Whoever does God\'s will is my brother and sister and mother.' },
+
+  // Luke (Chapters 1-3)
+  { book: 'Luke', chapter: 1, verse: 1, text: 'Many have undertaken to draw up an account of the things that have been fulfilled among us.' },
   { book: 'Luke', chapter: 1, verse: 37, text: 'For no word from God will ever fail.' },
+  { book: 'Luke', chapter: 2, verse: 10, text: 'But the angel said to them, "Do not be afraid. I bring you good news that will cause great joy for all the people."' },
+  { book: 'Luke', chapter: 2, verse: 11, text: 'Today in the town of David a Savior has been born to you; he is the Messiah, the Lord.' },
+  { book: 'Luke', chapter: 3, verse: 22, text: 'And the Holy Spirit descended on him in bodily form like a dove. And a voice came from heaven: "You are my Son, whom I love; with you I am well pleased."' },
+
+  // John (Chapters 1-3)
+  { book: 'John', chapter: 1, verse: 1, text: 'In the beginning was the Word, and the Word was with God, and the Word was God.' },
+  { book: 'John', chapter: 1, verse: 14, text: 'The Word became flesh and made his dwelling among us. We have seen his glory, the glory of the one and only Son, who came from the Father, full of grace and truth.' },
+  { book: 'John', chapter: 2, verse: 11, text: 'What Jesus did here in Cana of Galilee was the first of the signs through which he revealed his glory; and his disciples believed in him.' },
+  { book: 'John', chapter: 2, verse: 25, text: 'Now there was a Pharisee, a man named Nicodemus who was a member of the Jewish ruling council.' },
   { book: 'John', chapter: 3, verse: 16, text: 'For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.' },
+
+  // Acts (Chapters 1-3)
   { book: 'Acts', chapter: 1, verse: 8, text: 'But you will receive power when the Holy Spirit comes on you; and you will be my witnesses in Jerusalem, and in all Judea and Samaria, and to the ends of the earth.' },
+  { book: 'Acts', chapter: 2, verse: 1, text: 'When the day of Pentecost came, they were all together in one place.' },
+  { book: 'Acts', chapter: 2, verse: 38, text: 'Peter replied, "Repent and be baptized, every one of you, in the name of Jesus Christ for the forgiveness of your sins."' },
+  { book: 'Acts', chapter: 3, verse: 12, text: 'When Peter saw this, he said to them: "Fellow Israelites, why does this surprise you?"' },
+
+  // Romans (Chapters 1-3)
+  { book: 'Romans', chapter: 1, verse: 16, text: 'For I am not ashamed of the gospel, because it is the power of God that brings salvation to everyone who believes.' },
+  { book: 'Romans', chapter: 2, verse: 1, text: 'You, therefore, have no excuse, you who pass judgment on someone else, for at whatever point you judge another, you are condemning yourself.' },
   { book: 'Romans', chapter: 3, verse: 23, text: 'For all have sinned and fall short of the glory of God.' },
+
+  // 1 Corinthians (Chapters 1-3)
+  { book: '1 Corinthians', chapter: 1, verse: 18, text: 'For the message of the cross is foolishness to those who are perishing, but to us who are being saved it is the power of God.' },
+  { book: '1 Corinthians', chapter: 2, verse: 2, text: 'For I resolved to know nothing while I was with you except Jesus Christ and him crucified.' },
+  { book: '1 Corinthians', chapter: 3, verse: 16, text: 'Don\'t you know that you yourselves are God\'s temple and that God\'s Spirit dwells in your midst?' },
   { book: '1 Corinthians', chapter: 16, verse: 14, text: 'Let all that you do be done in love.' },
+
+  // 2 Corinthians (Chapters 1-3)
+  { book: '2 Corinthians', chapter: 1, verse: 3, text: 'Praise be to the God and Father of our Lord Jesus Christ, the Father of compassion and the God of all comfort.' },
+  { book: '2 Corinthians', chapter: 2, verse: 14, text: 'But thanks be to God, who always leads us as captives in the triumphal procession of Christ.' },
+  { book: '2 Corinthians', chapter: 3, verse: 18, text: 'And we all, who with unveiled faces contemplate the Lord\'s glory, are being transformed into his image with ever-increasing glory.' },
   { book: '2 Corinthians', chapter: 5, verse: 17, text: 'Therefore, if anyone is in Christ, the new creation has come: The old has gone, the new is here!' },
+
+  // Galatians (Chapters 1-3)
+  { book: 'Galatians', chapter: 1, verse: 10, text: 'Am I now trying to win the approval of human beings, or of God? Or am I trying to please people?' },
+  { book: 'Galatians', chapter: 2, verse: 20, text: 'I have been crucified with Christ and I no longer live, but Christ lives in me.' },
+  { book: 'Galatians', chapter: 3, verse: 26, text: 'So in Christ Jesus you are all children of God through faith.' },
   { book: 'Galatians', chapter: 5, verse: 22, text: 'But the fruit of the Spirit is love, joy, peace, forbearance, kindness, goodness, faithfulness, gentleness and self-control.' },
+
+  // Ephesians (Chapters 1-3)
+  { book: 'Ephesians', chapter: 1, verse: 3, text: 'Praise be to the God and Father of our Lord Jesus Christ, who has blessed us in the heavenly realms with every spiritual blessing in Christ.' },
   { book: 'Ephesians', chapter: 2, verse: 8, text: 'For it is by grace you have been saved, through faith—and this is not from yourselves, it is the gift of God.' },
+  { book: 'Ephesians', chapter: 3, verse: 20, text: 'Now to him who is able to do immeasurably more than all we ask or imagine, according to his power that is at work within us.' },
+  { book: 'Ephesians', chapter: 6, verse: 10, text: 'Finally, be strong in the Lord and in his mighty power.' },
+
+  // Philippians (All 4 chapters)
+  { book: 'Philippians', chapter: 1, verse: 6, text: 'Being confident of this, that he who began a good work in you will carry it on to completion until the day of Christ Jesus.' },
+  { book: 'Philippians', chapter: 2, verse: 5, text: 'In your relationships with one another, have the same mindset as Christ Jesus.' },
+  { book: 'Philippians', chapter: 3, verse: 20, text: 'But our citizenship is in heaven. And we eagerly await a Savior from there, the Lord Jesus Christ.' },
   { book: 'Philippians', chapter: 4, verse: 13, text: 'I can do all this through Christ, who gives me strength.' },
+
+  // Colossians (All 4 chapters)
+  { book: 'Colossians', chapter: 1, verse: 13, text: 'For he has rescued us from the dominion of darkness and brought us into the kingdom of the Son he loves.' },
+  { book: 'Colossians', chapter: 2, verse: 6, text: 'So then, just as you received Christ Jesus as Lord, continue to live your lives in him.' },
   { book: 'Colossians', chapter: 3, verse: 16, text: 'Let the message of Christ dwell among you richly as you teach and admonish one another with all wisdom through psalms, hymns, and songs from the Spirit.' },
+
+  // 1 Thessalonians (All 5 chapters)
+  { book: '1 Thessalonians', chapter: 1, verse: 3, text: 'We remember before our God and Father your work produced by faith, your labor prompted by love, and your endurance inspired by hope in our Lord Jesus Christ.' },
+  { book: '1 Thessalonians', chapter: 2, verse: 13, text: 'And we also thank God continually because, when you received the word of God, which you heard from us, you accepted it not as a human word, but as it actually is, the word of God.' },
+  { book: '1 Thessalonians', chapter: 3, verse: 12, text: 'May the Lord make your love increase and overflow for each other and for everyone else.' },
+  { book: '1 Thessalonians', chapter: 4, verse: 3, text: 'It is God\'s will that you should be sanctified: that you should avoid sexual immorality.' },
   { book: '1 Thessalonians', chapter: 5, verse: 17, text: 'Pray without ceasing.' },
+
+  // 2 Thessalonians (All 3 chapters)
+  { book: '2 Thessalonians', chapter: 1, verse: 3, text: 'We ought always to thank God for you, brothers and sisters, and rightly so, because your faith is growing more and more, and the love all of you have for one another is increasing.' },
+  { book: '2 Thessalonians', chapter: 2, verse: 13, text: 'But we ought always to thank God for you, brothers and sisters loved by the Lord, because God chose you as firstfruits to be saved through the sanctifying work of the Spirit and through belief in the truth.' },
   { book: '2 Thessalonians', chapter: 3, verse: 3, text: 'But the Lord is faithful, and he will strengthen you and protect you from the evil one.' },
+
+  // 1 Timothy (All 6 chapters)
+  { book: '1 Timothy', chapter: 1, verse: 15, text: 'Here is a trustworthy saying that deserves full acceptance: Christ Jesus came into the world to save sinners.' },
+  { book: '1 Timothy', chapter: 2, verse: 5, text: 'For there is one God and one mediator between God and mankind, the man Christ Jesus.' },
+  { book: '1 Timothy', chapter: 3, verse: 16, text: 'Beyond all question, the mystery from which true godliness springs is great.' },
+  { book: '1 Timothy', chapter: 4, verse: 4, text: 'For everything God created is good, and nothing is to be rejected if it is received with thanksgiving.' },
+  { book: '1 Timothy', chapter: 5, verse: 1, text: 'Do not rebuke an older man harshly, but exhort him as if he were your father.' },
   { book: '1 Timothy', chapter: 6, verse: 10, text: 'For the love of money is a root of all kinds of evil.' },
+
+  // 2 Timothy (All 4 chapters)
+  { book: '2 Timothy', chapter: 1, verse: 7, text: 'For the Spirit God gave us does not make us timid, but gives us power, love and a sound mind.' },
   { book: '2 Timothy', chapter: 2, verse: 2, text: 'And the things you have heard me say in the presence of many witnesses entrust to reliable people who will also be qualified to teach others.' },
+  { book: '2 Timothy', chapter: 3, verse: 16, text: 'All Scripture is God-breathed and is useful for teaching, rebuking, correcting and training in righteousness.' },
+  { book: '2 Timothy', chapter: 4, verse: 7, text: 'I have fought the good fight, I have finished the race, I have kept the faith.' },
+
+  // Titus (All 3 chapters)
+  { book: 'Titus', chapter: 1, verse: 5, text: 'The reason I left you in Crete was that you might put in order what was left unfinished and appoint elders in every town.' },
   { book: 'Titus', chapter: 2, verse: 11, text: 'For the grace of God has appeared that offers salvation to all people.' },
+  { book: 'Titus', chapter: 3, verse: 5, text: 'He saved us, not because of righteous things we had done, but because of his mercy.' },
+
+  // Philemon (1 chapter)
   { book: 'Philemon', chapter: 1, verse: 6, text: 'I pray that you may be active in sharing your faith, so that you will have a full understanding of every good thing we have in Christ.' },
+
+  // Hebrews (First 3 chapters + key verse)
+  { book: 'Hebrews', chapter: 1, verse: 1, text: 'In the past God spoke to our ancestors through the prophets at many times and in various ways.' },
+  { book: 'Hebrews', chapter: 2, verse: 3, text: 'How shall we escape if we ignore so great a salvation?' },
+  { book: 'Hebrews', chapter: 3, verse: 4, text: 'For every house is built by someone, but God is the builder of everything.' },
   { book: 'Hebrews', chapter: 11, verse: 1, text: 'Now faith is confidence in what we hope for and assurance about what we do not see.' },
+
+  // James (All 5 chapters)
   { book: 'James', chapter: 1, verse: 22, text: 'Do not merely listen to the word, and so deceive yourselves. Do what it says.' },
+  { book: 'James', chapter: 2, verse: 26, text: 'As the body without the spirit is dead, so faith without deeds is dead.' },
+  { book: 'James', chapter: 3, verse: 6, text: 'The tongue also is a fire, a world of evil among the parts of the body.' },
+  { book: 'James', chapter: 4, verse: 7, text: 'Submit yourselves, then, to God. Resist the devil, and he will flee from you.' },
+  { book: 'James', chapter: 5, verse: 16, text: 'Therefore confess your sins to each other and pray for each other so that you may be healed.' },
+
+  // 1 Peter (All 5 chapters)
+  { book: '1 Peter', chapter: 1, verse: 3, text: 'Praise be to the God and Father of our Lord Jesus Christ!' },
+  { book: '1 Peter', chapter: 2, verse: 9, text: 'But you are a chosen people, a royal priesthood, a holy nation, God\'s special possession.' },
+  { book: '1 Peter', chapter: 3, verse: 15, text: 'But in your hearts revere Christ as Lord. Always be prepared to give an answer to everyone who asks you to give the reason for the hope that you have.' },
+  { book: '1 Peter', chapter: 4, verse: 10, text: 'Each of you should use whatever gift you have received to serve others, as faithful stewards of God\'s grace in its various forms.' },
   { book: '1 Peter', chapter: 5, verse: 7, text: 'Cast all your anxiety on him because he cares for you.' },
+
+  // 2 Peter (All 3 chapters)
   { book: '2 Peter', chapter: 1, verse: 3, text: 'His divine power has given us everything we need for a godly life through our knowledge of him who called us by his own glory and goodness.' },
+  { book: '2 Peter', chapter: 2, verse: 1, text: 'But there were also false prophets among the people, just as there will be false teachers among you.' },
+  { book: '2 Peter', chapter: 3, verse: 9, text: 'The Lord is not slow in keeping his promise, as some understand slowness. Instead he is patient, not wanting anyone to perish.' },
+
+  // 1 John (All 5 chapters)
+  { book: '1 John', chapter: 1, verse: 1, text: 'That which was from the beginning, which we have heard, which we have seen with our eyes, which we have looked at and our hands have touched.' },
+  { book: '1 John', chapter: 2, verse: 3, text: 'We know that we have come to know him if we keep his commands.' },
+  { book: '1 John', chapter: 3, verse: 1, text: 'See what great love the Father has lavished on us, that we should be called children of God!' },
   { book: '1 John', chapter: 4, verse: 7, text: 'Dear friends, let us love one another, for love comes from God.' },
+  { book: '1 John', chapter: 5, verse: 4, text: 'For everyone born of God overcomes the world.' },
+
+  // 2 John (1 chapter)
   { book: '2 John', chapter: 1, verse: 6, text: 'And this is love: that we walk in obedience to his commands.' },
+
+  // 3 John (1 chapter)
   { book: '3 John', chapter: 1, verse: 11, text: 'Dear friend, do not imitate what is evil but what is good.' },
+
+  // Jude (1 chapter)
   { book: 'Jude', chapter: 1, verse: 24, text: 'To him who is able to keep you from stumbling and to present you before his glorious presence without fault and with great joy.' },
+
+  // Revelation (First 3 chapters + key verse)
+  { book: 'Revelation', chapter: 1, verse: 3, text: 'Blessed is the one who reads aloud the words of this prophecy, and blessed are those who hear it and take to heart what is written in it.' },
+  { book: 'Revelation', chapter: 2, verse: 7, text: 'Whoever has ears, let them hear what the Spirit says to the churches.' },
+  { book: 'Revelation', chapter: 3, verse: 20, text: 'Here I am! I stand at the door and knock. If anyone hears my voice and opens the door, I will come in and eat with that person, and they with me.' },
   { book: 'Revelation', chapter: 21, verse: 4, text: 'He will wipe every tear from their eyes. There will be no more death or mourning or crying or pain, for the old order of things has passed away.' },
 ];
 
