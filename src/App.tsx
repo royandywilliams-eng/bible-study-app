@@ -5,11 +5,13 @@ import { NotesService } from './services/NotesService';
 import { SearchPage } from './pages/SearchPage';
 import { BrowsePage } from './pages/BrowsePage';
 import { DevotionalsPage } from './pages/DevotionalsPage';
+import { StudyGuidesPage } from './pages/StudyGuidesPage';
+import { ProgressDashboardPage } from './pages/ProgressDashboardPage';
 import { NotesPanel } from './components/Notes/NotesPanel';
 import BibleReader from './components/Bible/BibleReader';
 import './index.css';
 
-type PageType = 'home' | 'search' | 'browse' | 'bible' | 'devotionals' | 'notes' | 'settings';
+type PageType = 'home' | 'search' | 'browse' | 'bible' | 'devotionals' | 'notes' | 'studyGuides' | 'progress' | 'settings';
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -93,6 +95,10 @@ function App() {
         return <BibleReader isDarkMode={isDarkMode} />;
       case 'devotionals':
         return <DevotionalsPage isDarkMode={isDarkMode} onNavigateToPage={setCurrentPage} />;
+      case 'studyGuides':
+        return <StudyGuidesPage isDarkMode={isDarkMode} onNavigateToPage={setCurrentPage} />;
+      case 'progress':
+        return <ProgressDashboardPage isDarkMode={isDarkMode} onNavigateToPage={setCurrentPage} />;
       case 'notes':
         return <NotesPanel isDarkMode={isDarkMode} />;
       case 'home':
@@ -190,6 +196,8 @@ function App() {
         {renderNavigationButton('bible', 'Bible', '📖')}
         {renderNavigationButton('notes', 'Notes', '📋')}
         {renderNavigationButton('devotionals', 'Devotionals', '✨')}
+        {renderNavigationButton('studyGuides', 'Study Guides', '🎓')}
+        {renderNavigationButton('progress', 'Progress', '📊')}
         {renderNavigationButton('settings', 'Settings', '⚙️')}
       </nav>
 
