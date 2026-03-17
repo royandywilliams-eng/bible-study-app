@@ -74,33 +74,43 @@ export const VerseHighlight: React.FC<VerseHighlightProps> = ({ result, isDarkMo
         }}>
           Highlight:
         </p>
-        <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
+        <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem', flexWrap: 'wrap' }}>
           {highlightColors.map(({ color, label, bgLight, bgDark }) => (
             <button
               key={color}
               onClick={(e) => {
+                e.preventDefault();
                 e.stopPropagation();
                 handleHighlight(color);
               }}
-              title={label}
+              type="button"
+              title={`Highlight with ${label}`}
               style={{
-                width: '2rem',
-                height: '2rem',
+                width: '2.5rem',
+                height: '2.5rem',
                 borderRadius: '4px',
                 border: isHighlighted(passageId) && existingNote?.highlightColor === color
                   ? `3px solid ${isDarkMode ? '#60a5fa' : '#3b82f6'}`
-                  : `1px solid ${isDarkMode ? '#475569' : '#cbd5e1'}`,
+                  : `2px solid ${isDarkMode ? '#475569' : '#cbd5e1'}`,
                 backgroundColor: isDarkMode ? bgDark : bgLight,
                 cursor: 'pointer',
                 transition: 'all 0.2s',
+                padding: '0',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontWeight: 'bold',
+                fontSize: '0.75rem',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'scale(1.1)';
+                e.currentTarget.style.transform = 'scale(1.15)';
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'scale(1)';
               }}
-            />
+            >
+              {label[0]}
+            </button>
           ))}
         </div>
       </div>
