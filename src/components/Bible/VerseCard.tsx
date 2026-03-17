@@ -59,17 +59,9 @@ export default function VerseCard({
   const highlightColor = highlightInfo?.color || 'yellow';
   const colorClasses = HIGHLIGHT_COLORS[highlightColor];
 
-  const handleCardClick = (e: React.MouseEvent) => {
-    // Don't trigger selection if clicking on interactive elements
-    if ((e.target as HTMLElement).closest('button')) {
-      return;
-    }
-    onSelect();
-  };
-
   return (
     <div
-      onClick={handleCardClick}
+      onClick={() => onSelect()}
       className={`p-3 rounded-lg cursor-pointer transition-colors duration-150 border-l-4 relative ${
         highlightInfo && !isSelected
           ? `${colorClasses.bg} ${colorClasses.border}`
@@ -77,6 +69,7 @@ export default function VerseCard({
           ? 'bg-yellow-100 dark:bg-yellow-900 border-l-yellow-400 dark:border-l-yellow-600'
           : 'bg-slate-50 dark:bg-slate-800 border-l-slate-300 dark:border-l-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700'
       }`}
+      style={{ pointerEvents: 'auto' }}
     >
       <div className="flex gap-3 items-start">
         <span className="font-bold text-sm text-slate-600 dark:text-slate-400 min-w-fit">{verseNum}.</span>
