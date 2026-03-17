@@ -5,7 +5,11 @@ import BookSelector from './BookSelector';
 import ChapterSelector from './ChapterSelector';
 import VerseList from './VerseList';
 
-export default function BibleReader() {
+interface BibleReaderProps {
+  isDarkMode?: boolean;
+}
+
+export default function BibleReader({ isDarkMode = false }: BibleReaderProps) {
   const { currentPassage, setCurrentPassage, bibleBooks } = useBibleStore();
   const [currentBook, setCurrentBook] = useState<BibleBook | null>(null);
   const [verses, setVerses] = useState<Verse[]>([]);
@@ -167,7 +171,14 @@ export default function BibleReader() {
 
       {/* Verse display */}
       <div className="bg-white dark:bg-slate-900 rounded-lg shadow-md p-6">
-        <VerseList verses={verses} bookName={currentBook.bookName} chapterNum={currentPassage.chapterNum} />
+        <VerseList
+          verses={verses}
+          bookName={currentBook.bookName}
+          chapterNum={currentPassage.chapterNum}
+          bookNumber={currentBook.bookNumber}
+          testament={currentBook.testament}
+          isDarkMode={isDarkMode}
+        />
       </div>
     </div>
   );

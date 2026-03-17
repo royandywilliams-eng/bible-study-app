@@ -89,7 +89,7 @@ function App() {
       case 'browse':
         return <BrowsePage isDarkMode={isDarkMode} onNavigateToPage={setCurrentPage} />;
       case 'bible':
-        return <BibleReader />;
+        return <BibleReader isDarkMode={isDarkMode} />;
       case 'notes':
         return <NotesPanel isDarkMode={isDarkMode} />;
       case 'home':
