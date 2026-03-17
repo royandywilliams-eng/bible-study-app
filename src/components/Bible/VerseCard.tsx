@@ -62,7 +62,7 @@ export default function VerseCard({
   return (
     <div
       onClick={() => onSelect()}
-      className={`p-3 rounded-lg cursor-pointer transition-colors duration-150 border-l-4 relative ${
+      className={`p-3 rounded-lg cursor-pointer transition-colors duration-150 border-l-4 relative select-none ${
         highlightInfo && !isSelected
           ? `${colorClasses.bg} ${colorClasses.border}`
           : isSelected
