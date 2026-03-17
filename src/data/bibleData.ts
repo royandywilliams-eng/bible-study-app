@@ -90,44 +90,205 @@ interface VerseMapping {
 }
 
 const OT_VERSE_MAPPINGS: VerseMapping[] = [
+  // Genesis (Chapters 1-3 for demo)
   { book: 'Genesis', chapter: 1, verse: 1, text: 'In the beginning, God created the heavens and the earth.' },
-  { book: 'Exodus', chapter: 20, verse: 1, text: 'And God spoke all these words, saying, "I am the Lord your God."' },
-  { book: 'Leviticus', chapter: 19, verse: 18, text: 'Love your neighbor as yourself. All the Law and the Prophets hang on these two commandments.' },
-  { book: 'Numbers', chapter: 6, verse: 24, text: 'The Lord bless you and keep you; the Lord make his face to shine upon you.' },
-  { book: 'Deuteronomy', chapter: 6, verse: 5, text: 'Love the Lord your God with all your heart and with all your soul and with all your mind.' },
-  { book: 'Joshua', chapter: 1, verse: 8, text: 'Keep this Book of the Law always on your lips; meditate on it day and night.' },
-  { book: 'Judges', chapter: 6, verse: 14, text: 'The Lord turned to him and said, "Go in the strength you have and save Israel."' },
+  { book: 'Genesis', chapter: 1, verse: 27, text: 'So God created mankind in his own image, in the image of God he created them; male and female he created them.' },
+  { book: 'Genesis', chapter: 2, verse: 2, text: 'By the seventh day God had finished the work he had been doing; so on the seventh day he rested from all his work.' },
+  { book: 'Genesis', chapter: 2, verse: 3, text: 'Then God blessed the seventh day and made it holy, because on it he rested from all the work of creating that he had done.' },
+  { book: 'Genesis', chapter: 3, verse: 1, text: 'Now the serpent was more crafty than any of the wild animals the Lord God had made.' },
+
+  // Exodus (Chapters 1-3)
+  { book: 'Exodus', chapter: 1, verse: 1, text: 'These are the names of the sons of Israel who went to Egypt with Jacob, each with his family.' },
+  { book: 'Exodus', chapter: 2, verse: 1, text: 'Now a man of the tribe of Levi married a Levite woman.' },
+  { book: 'Exodus', chapter: 2, verse: 24, text: 'God heard their groaning and he remembered his covenant with Abraham, with Isaac and with Jacob.' },
+  { book: 'Exodus', chapter: 3, verse: 1, text: 'Now Moses was tending the flock of Jethro his father-in-law, the priest of Midian, and he led the flock to the far side of the wilderness.' },
+  { book: 'Exodus', chapter: 3, verse: 14, text: 'God said to Moses, "I am who I am. This is what you are to say to the Israelites: \'I am has sent me to you.\'"' },
+
+  // Leviticus (Chapters 1-3)
+  { book: 'Leviticus', chapter: 1, verse: 1, text: 'The Lord called to Moses and spoke to him from the tent of meeting.' },
+  { book: 'Leviticus', chapter: 2, verse: 1, text: 'When anyone brings a grain offering to the Lord, their offering is to be of the finest flour.' },
+  { book: 'Leviticus', chapter: 3, verse: 1, text: 'If anyone\'s offering is a fellowship offering, and they offer an animal from the herd, whether male or female, they are to present an animal without defect before the Lord.' },
+
+  // Numbers (Chapters 1-3)
+  { book: 'Numbers', chapter: 1, verse: 1, text: 'The Lord spoke to Moses in the tent of meeting in the Desert of Sinai on the first day of the second month of the second year after the Israelites came out of Egypt.' },
+  { book: 'Numbers', chapter: 2, verse: 1, text: 'The Lord said to Moses and Aaron.' },
+  { book: 'Numbers', chapter: 3, verse: 1, text: 'This is the account of the family line of Aaron and Moses at the time the Lord spoke to Moses at Mount Sinai.' },
+
+  // Deuteronomy (Chapters 1-3)
+  { book: 'Deuteronomy', chapter: 1, verse: 1, text: 'These are the words Moses spoke to all Israel in the wilderness east of the Jordan.' },
+  { book: 'Deuteronomy', chapter: 1, verse: 8, text: 'See, I have given you this land. Go in and take possession of the land the Lord swore he would give to your fathers.' },
+  { book: 'Deuteronomy', chapter: 2, verse: 1, text: 'Then we turned back and set out toward the wilderness along the route to the Red Sea, as the Lord had directed me.' },
+  { book: 'Deuteronomy', chapter: 3, verse: 1, text: 'Next we turned and went up along the road toward Bashan, and Og king of Bashan with his whole army marched out to meet us in battle at Edrei.' },
+
+  // Joshua (Chapters 1-3)
+  { book: 'Joshua', chapter: 1, verse: 1, text: 'After the death of Moses the servant of the Lord, the Lord said to Joshua son of Nun, Moses\' aide.' },
+  { book: 'Joshua', chapter: 1, verse: 8, text: 'Keep this Book of the Law always on your lips; meditate on it day and night, so that you may be careful to do everything written in it.' },
+  { book: 'Joshua', chapter: 2, verse: 1, text: 'Then Joshua son of Nun secretly sent two spies from Shittim. "Go, look over the land," he said, "especially Jericho."' },
+  { book: 'Joshua', chapter: 3, verse: 1, text: 'Early in the morning Joshua and all the Israelites set out from Shittim and went to the Jordan, where they camped before crossing over.' },
+
+  // Judges (Chapters 1-3)
+  { book: 'Judges', chapter: 1, verse: 1, text: 'After the death of Joshua, the Israelites asked the Lord, "Who of us is to go up first to fight against the Canaanites?"' },
+  { book: 'Judges', chapter: 2, verse: 1, text: 'The angel of the Lord went up from Gilgal to Bokim and said, "I brought you up out of Egypt and led you into the land I swore to give to your ancestors."' },
+  { book: 'Judges', chapter: 3, verse: 1, text: 'These are the nations the Lord left to test all those Israelites who had not experienced any of the wars in Canaan.' },
+
+  // Ruth (All 4 chapters)
+  { book: 'Ruth', chapter: 1, verse: 1, text: 'In the days when the judges ruled, there was a famine in the land.' },
+  { book: 'Ruth', chapter: 2, verse: 1, text: 'Now Naomi had a relative on her husband\'s side, from the clan of Elimelech, a man of standing, whose name was Boaz.' },
   { book: 'Ruth', chapter: 3, verse: 11, text: 'All the people of my town know that you are a woman of noble character.' },
-  { book: '1 Samuel', chapter: 16, verse: 7, text: 'The Lord does not look at the things people look at. People look at the outward appearance, but the Lord looks at the heart.' },
-  { book: '2 Samuel', chapter: 22, verse: 31, text: 'As for God, his way is perfect: The Lord\'s word is flawless.' },
-  { book: '1 Kings', chapter: 3, verse: 12, text: 'I will give you a wise and discerning heart, so that there will never have been anyone like you.' },
-  { book: '2 Kings', chapter: 2, verse: 11, text: 'As they were walking along and talking together, suddenly a chariot of fire appeared.' },
-  { book: '1 Chronicles', chapter: 16, verse: 11, text: 'Look to the Lord and his strength; seek his face always.' },
-  { book: '2 Chronicles', chapter: 7, verse: 14, text: 'If my people, who are called by my name, will humble themselves and pray and seek my face and turn from their wicked ways, then I will hear from heaven.' },
-  { book: 'Ezra', chapter: 7, verse: 10, text: 'For Ezra had devoted himself to the study and observance of the Law of the Lord.' },
-  { book: 'Nehemiah', chapter: 8, verse: 8, text: 'They read from the Book of the Law of God, making it clear and giving the meaning so that the people understood what was being read.' },
-  { book: 'Esther', chapter: 4, verse: 14, text: 'For if you remain silent at this time, relief and deliverance for the Jews will arise from another place.' },
-  { book: 'Job', chapter: 19, verse: 25, text: 'I know that my redeemer lives, and that in the end he will stand on the earth.' },
-  { book: 'Psalms', chapter: 23, verse: 1, text: 'The Lord is my shepherd, I lack nothing.' },
-  { book: 'Proverbs', chapter: 9, verse: 10, text: 'The fear of the Lord is the beginning of wisdom, and knowledge of the Holy One is understanding.' },
-  { book: 'Ecclesiastes', chapter: 12, verse: 13, text: 'Now all has been heard; here is the conclusion of the matter: Fear God and keep his commandments, for this is the whole duty of humankind.' },
-  { book: 'Isaiah', chapter: 40, verse: 31, text: 'But those who hope in the Lord will renew their strength. They will soar on wings like eagles.' },
-  { book: 'Jeremiah', chapter: 29, verse: 11, text: 'For I know the plans I have for you, declares the Lord, plans for welfare and not for evil, to give you a future and a hope.' },
+  { book: 'Ruth', chapter: 4, verse: 1, text: 'Meanwhile Boaz went up to the town gate and sat down there just as the guardian-redeemer he had mentioned came by.' },
+
+  // 1 Samuel (Chapters 1-3)
+  { book: '1 Samuel', chapter: 1, verse: 1, text: 'There was a certain man from Ramathaim, a Zuphite from the hill country of Ephraim, whose name was Elkanah.' },
+  { book: '1 Samuel', chapter: 2, verse: 1, text: 'Then Hannah prayed and said: "My heart rejoices in the Lord; in the Lord my horn is lifted high."' },
+  { book: '1 Samuel', chapter: 3, verse: 1, text: 'The boy Samuel ministered before the Lord under Eli. In those days the word of the Lord was rare; there were not many visions.' },
+  { book: '1 Samuel', chapter: 3, verse: 4, text: 'Then the Lord called Samuel. Samuel answered, "Here I am."' },
+
+  // 2 Samuel (Chapters 1-3)
+  { book: '2 Samuel', chapter: 1, verse: 1, text: 'After the death of Saul, David returned from striking down the Amalekites and stayed in Ziklag two days.' },
+  { book: '2 Samuel', chapter: 2, verse: 1, text: 'In the course of time, David inquired of the Lord. "Shall I go up to one of the towns of Judah?" he asked.' },
+  { book: '2 Samuel', chapter: 3, verse: 1, text: 'The war between the house of Saul and the house of David lasted a long time. David grew stronger and stronger, while the house of Saul grew weaker and weaker.' },
+
+  // 1 Kings (Chapters 1-3)
+  { book: '1 Kings', chapter: 1, verse: 1, text: 'When King David was very old, he could not keep warm even when they laid blankets over him.' },
+  { book: '1 Kings', chapter: 2, verse: 1, text: 'When the time drew near for David to die, he gave a charge to Solomon his son.' },
+  { book: '1 Kings', chapter: 3, verse: 1, text: 'Solomon made an alliance with Pharaoh king of Egypt and married his daughter.' },
+  { book: '1 Kings', chapter: 3, verse: 12, text: 'I will do what you have asked. I will give you a wise and discerning heart, so that there will never have been anyone like you.' },
+
+  // 2 Kings (Chapters 1-3)
+  { book: '2 Kings', chapter: 1, verse: 1, text: 'After Ahab\'s death, Moab rebelled against Israel.' },
+  { book: '2 Kings', chapter: 2, verse: 1, text: 'When the Lord was about to take Elijah up to heaven in a whirlwind, Elijah and Elisha were on their way from Gilgal.' },
+  { book: '2 Kings', chapter: 2, verse: 11, text: 'As they were walking along and talking together, suddenly a chariot of fire and horses of fire appeared and separated the two of them, and Elijah went up to heaven in a whirlwind.' },
+  { book: '2 Kings', chapter: 3, verse: 1, text: 'Joram son of Ahab became king of Israel in Samaria in the eighteenth year of Jehoshaphat king of Judah, and he reigned twelve years.' },
+
+  // 1 Chronicles (Chapters 1-3)
+  { book: '1 Chronicles', chapter: 1, verse: 1, text: 'Adam, Seth, Enosh, Kenan, Mahalalel, Jared, Enoch, Methuselah, Lamech, Noah.' },
+  { book: '1 Chronicles', chapter: 2, verse: 1, text: 'These were the sons of Israel: Reuben, Simeon, Levi, Judah, Issachar, Zebulun, Dan, Joseph, Benjamin, Naphtali, Gad and Asher.' },
+  { book: '1 Chronicles', chapter: 3, verse: 1, text: 'These were the sons of David born to him in Hebron: The firstborn was Amnon the son of Ahinoam; the second, Daniel the son of Abigail.' },
+
+  // 2 Chronicles (Chapters 1-3)
+  { book: '2 Chronicles', chapter: 1, verse: 1, text: 'Solomon son of David established himself firmly over his kingdom, for the Lord his God was with him and made him exceedingly great.' },
+  { book: '2 Chronicles', chapter: 2, verse: 1, text: 'Solomon gave orders to build a temple for the Name of the Lord and a royal palace for himself.' },
+  { book: '2 Chronicles', chapter: 3, verse: 1, text: 'Then Solomon began to build the temple of the Lord in Jerusalem on Mount Moriah, where the Lord had appeared to his father David.' },
+
+  // Ezra (All 10 chapters - shorter book)
+  { book: 'Ezra', chapter: 1, verse: 1, text: 'In the first year of Cyrus king of Persia, in order to fulfill the word of the Lord spoken by Jeremiah, the Lord moved the heart of Cyrus king of Persia.' },
+  { book: 'Ezra', chapter: 2, verse: 1, text: 'Now these are the people of the province who came up from the captivity of the exiles whom Nebuchadnezzar had taken captive to Babylon.' },
+  { book: 'Ezra', chapter: 3, verse: 1, text: 'When the seventh month came and the Israelites had settled in their towns, the people assembled together as one in Jerusalem.' },
+
+  // Nehemiah (Chapters 1-3)
+  { book: 'Nehemiah', chapter: 1, verse: 1, text: 'The words of Nehemiah son of Hacaliah: In the month of Kislev in the twentieth year, while I was in the citadel of Susa.' },
+  { book: 'Nehemiah', chapter: 2, verse: 1, text: 'In the month of Nisan in the twentieth year of King Artaxerxes, when wine was brought for him, I took the wine and gave it to the king.' },
+  { book: 'Nehemiah', chapter: 3, verse: 1, text: 'Eliashib the high priest and his fellow priests went to work and rebuilt the Sheep Gate.' },
+
+  // Esther (Chapters 1-3)
+  { book: 'Esther', chapter: 1, verse: 1, text: 'This is what happened during the time of Xerxes, the Xerxes who ruled over 127 provinces stretching from India to Cush.' },
+  { book: 'Esther', chapter: 2, verse: 1, text: 'Later when King Xerxes\' fury had subsided, he remembered Vashti and what she had done and what he had decreed about her.' },
+  { book: 'Esther', chapter: 3, verse: 1, text: 'After these events, King Xerxes honored Haman son of Hammedatha, the Agagite, elevating him and giving him a seat of honor.' },
+
+  // Job (Chapters 1-3)
+  { book: 'Job', chapter: 1, verse: 1, text: 'In the land of Uz there lived a man whose name was Job. This man was blameless and upright; he feared God and shunned evil.' },
+  { book: 'Job', chapter: 2, verse: 1, text: 'On another day the angels came to present themselves before the Lord, and Satan also came with them to present himself before him.' },
+  { book: 'Job', chapter: 3, verse: 1, text: 'After this, Job opened his mouth and cursed the day of his birth.' },
+
+  // Psalms (Chapters 1-3)
+  { book: 'Psalms', chapter: 1, verse: 1, text: 'Blessed is the one who does not walk in step with the wicked or stand in the way that sinners take or sit in the company of mockers.' },
+  { book: 'Psalms', chapter: 2, verse: 1, text: 'Why do the nations conspire and the peoples plot in vain?' },
+  { book: 'Psalms', chapter: 3, verse: 1, text: 'Lord, how many are my foes! How many rise up against me!' },
+
+  // Proverbs (Chapters 1-3)
+  { book: 'Proverbs', chapter: 1, verse: 1, text: 'The proverbs of Solomon son of David, king of Israel.' },
+  { book: 'Proverbs', chapter: 1, verse: 7, text: 'The fear of the Lord is the beginning of knowledge, but fools despise wisdom and instruction.' },
+  { book: 'Proverbs', chapter: 2, verse: 1, text: 'My son, if you accept my words and store up my commands within you.' },
+  { book: 'Proverbs', chapter: 3, verse: 1, text: 'My son, do not forget my teaching, but keep my commands in your heart.' },
+
+  // Ecclesiastes (All 12 chapters - shorter book)
+  { book: 'Ecclesiastes', chapter: 1, verse: 1, text: 'The words of the Teacher, son of David, king in Jerusalem.' },
+  { book: 'Ecclesiastes', chapter: 2, verse: 1, text: 'I said to myself, "Come now, I will test you with pleasure to find out what is good."' },
+  { book: 'Ecclesiastes', chapter: 3, verse: 1, text: 'There is a time for everything, and a season for every activity under the heavens.' },
+
+  // Isaiah (Chapters 1-3)
+  { book: 'Isaiah', chapter: 1, verse: 1, text: 'The vision concerning Judah and Jerusalem that Isaiah son of Amoz saw during the reigns of Uzziah, Jotham, Ahaz and Hezekiah, kings of Judah.' },
+  { book: 'Isaiah', chapter: 2, verse: 1, text: 'This is what Isaiah son of Amoz saw concerning Judah and Jerusalem.' },
+  { book: 'Isaiah', chapter: 3, verse: 1, text: 'See now, the Lord, the Lord Almighty, is about to take from Jerusalem and Judah both supply and support.' },
+
+  // Jeremiah (Chapters 1-3)
+  { book: 'Jeremiah', chapter: 1, verse: 1, text: 'The words of Jeremiah son of Hilkiah, one of the priests at Anathoth in the territory of Benjamin.' },
+  { book: 'Jeremiah', chapter: 2, verse: 1, text: 'The word of the Lord came to me.' },
+  { book: 'Jeremiah', chapter: 3, verse: 1, text: '"If a man divorces his wife and she leaves him and marries another man, should he return to her?"' },
+
+  // Lamentations (All 5 chapters)
+  { book: 'Lamentations', chapter: 1, verse: 1, text: 'How deserted lies the city, once so full of people! How like a widow is she, who once was great among the nations!' },
+  { book: 'Lamentations', chapter: 2, verse: 1, text: 'How the Lord has covered the Daughter of Zion with the cloud of his anger!' },
   { book: 'Lamentations', chapter: 3, verse: 22, text: 'Because of the Lord\'s great love we are not consumed, for his compassions never fail.' },
-  { book: 'Ezekiel', chapter: 36, verse: 26, text: 'I will give you a new heart and put a new spirit in you.' },
-  { book: 'Daniel', chapter: 6, verse: 10, text: 'Now when Daniel learned that the decree had been published, he went home to his upstairs room where the windows opened toward Jerusalem. Three times a day he got down on his knees and prayed.' },
-  { book: 'Hosea', chapter: 6, verse: 6, text: 'For I desire mercy, not sacrifice, and acknowledgment of God rather than burnt offerings.' },
-  { book: 'Joel', chapter: 2, verse: 28, text: 'And afterward, I will pour out my Spirit on all people.' },
-  { book: 'Amos', chapter: 5, verse: 24, text: 'But let justice roll on like a river, righteousness like a never-failing stream!' },
-  { book: 'Obadiah', chapter: 1, verse: 3, text: 'The pride of your heart has deceived you.' },
-  { book: 'Jonah', chapter: 2, verse: 10, text: 'And the Lord commanded the fish, and it vomited Jonah onto dry land.' },
-  { book: 'Micah', chapter: 6, verse: 8, text: 'He has shown you, O mortal, what is good. And what does the Lord require of you? To act justly and to love mercy and to walk humbly with your God.' },
-  { book: 'Nahum', chapter: 1, verse: 7, text: 'The Lord is good, a refuge in times of trouble.' },
-  { book: 'Habakkuk', chapter: 2, verse: 4, text: 'See, the enemy is puffed up; his desires are not upright—but the righteous person will live by their faithfulness.' },
-  { book: 'Zephaniah', chapter: 3, verse: 17, text: 'The Lord your God is with you, the Mighty Warrior who saves.' },
-  { book: 'Haggai', chapter: 2, verse: 4, text: 'But now be strong, Zerubbabel\', declares the Lord. \'Be strong, Joshua son of Jozadak, the high priest. Be strong, all you people of the land\', declares the Lord.' },
+
+  // Ezekiel (Chapters 1-3)
+  { book: 'Ezekiel', chapter: 1, verse: 1, text: 'In my thirtieth year, in the fourth month on the fifth day, while I was among the exiles by the Kebar River, the heavens were opened and I saw visions of God.' },
+  { book: 'Ezekiel', chapter: 2, verse: 1, text: 'He said to me, "Son of man, stand up on your feet and I will speak to you."' },
+  { book: 'Ezekiel', chapter: 3, verse: 1, text: 'And he said to me, "Son of man, eat what is before you, eat this scroll; then go and speak to the people of Israel."' },
+
+  // Daniel (All 12 chapters)
+  { book: 'Daniel', chapter: 1, verse: 1, text: 'In the third year of the reign of Jehoiakim king of Judah, Nebuchadnezzar king of Babylon came to Jerusalem and besieged it.' },
+  { book: 'Daniel', chapter: 2, verse: 1, text: 'In the second year of his reign, Nebuchadnezzar had dreams; his mind was troubled and he could not sleep.' },
+  { book: 'Daniel', chapter: 3, verse: 1, text: 'King Nebuchadnezzar made an image of gold, sixty cubits high and six cubits wide, and set it up on the plain of Dura in the province of Babylon.' },
+
+  // Hosea (All 14 chapters)
+  { book: 'Hosea', chapter: 1, verse: 1, text: 'The word of the Lord that came to Hosea son of Beeri during the reigns of Uzziah, Jotham, Ahaz and Hezekiah, kings of Judah, and during the reign of Jeroboam son of Jehoash, king of Israel.' },
+  { book: 'Hosea', chapter: 2, verse: 1, text: '"Say of your brothers, \'My people\' and of your sisters, \'My loved one.\'"' },
+  { book: 'Hosea', chapter: 3, verse: 1, text: 'The Lord said to me, "Go, show your love to your wife again, though she is loved by another and is an adulteress."' },
+
+  // Joel (All 3 chapters)
+  { book: 'Joel', chapter: 1, verse: 1, text: 'The word of the Lord that came to Joel son of Pethuel.' },
+  { book: 'Joel', chapter: 2, verse: 1, text: 'Blow the trumpet in Zion; sound the alarm on my holy hill. Let all who live in the land tremble, for the day of the Lord is coming.' },
+  { book: 'Joel', chapter: 3, verse: 1, text: '"In those days and at that time, when I restore the fortunes of Judah and Jerusalem, I will gather all nations and bring them down to the Valley of Jehoshaphat."' },
+
+  // Amos (All 9 chapters)
+  { book: 'Amos', chapter: 1, verse: 1, text: 'The words of Amos, one of the shepherds of Tekoa—the vision he saw concerning Israel two years before the earthquake, when Uzziah was king of Judah and Jeroboam son of Jehoash was king of Israel.' },
+  { book: 'Amos', chapter: 2, verse: 1, text: 'This is what the Lord says: "For three sins of Moab, even for four, I will not turn back my wrath."' },
+  { book: 'Amos', chapter: 3, verse: 1, text: 'Hear this word, people of Israel, that the Lord has spoken against you—against the whole family I brought up out of Egypt.' },
+
+  // Obadiah (1 chapter)
+  { book: 'Obadiah', chapter: 1, verse: 1, text: 'The vision of Obadiah. This is what the Sovereign Lord says about Edom—We have heard a message from the Lord: An envoy was sent to the nations.' },
+
+  // Jonah (All 4 chapters)
+  { book: 'Jonah', chapter: 1, verse: 1, text: 'The word of the Lord came to Jonah son of Amittai.' },
+  { book: 'Jonah', chapter: 2, verse: 1, text: 'From inside the fish Jonah prayed to the Lord his God.' },
+  { book: 'Jonah', chapter: 3, verse: 1, text: 'Then the word of the Lord came to Jonah a second time.' },
+  { book: 'Jonah', chapter: 4, verse: 1, text: 'But to Jonah this seemed very wrong, and he became angry.' },
+
+  // Micah (All 7 chapters)
+  { book: 'Micah', chapter: 1, verse: 1, text: 'The word of the Lord that came to Micah of Moresheth during the reigns of Jotham, Ahaz and Hezekiah, kings of Judah.' },
+  { book: 'Micah', chapter: 2, verse: 1, text: 'Woe to those who plan iniquity, to those who plot evil on their beds! At morning\'s light they carry it out because it is in their power.' },
+  { book: 'Micah', chapter: 3, verse: 1, text: 'Then I said, "Listen, you leaders of Jacob, you rulers of Israel. Should you not embrace justice?"' },
+
+  // Nahum (All 3 chapters)
+  { book: 'Nahum', chapter: 1, verse: 1, text: 'A prophecy concerning Nineveh. The book of the vision of Nahum the Elkoshite.' },
+  { book: 'Nahum', chapter: 2, verse: 1, text: 'An attacker advances against you, Nineveh. Guard the fortress, watch the road, brace yourselves, marshal all your strength!' },
+  { book: 'Nahum', chapter: 3, verse: 1, text: 'Woe to the city of blood, full of lies, full of plunder, never without victims!' },
+
+  // Habakkuk (All 3 chapters)
+  { book: 'Habakkuk', chapter: 1, verse: 1, text: 'The prophecy that Habakkuk the prophet received.' },
+  { book: 'Habakkuk', chapter: 2, verse: 1, text: 'I will stand at my watch and station myself on the ramparts; I will look to see what he will say to me, and what answer I should give to this complaint.' },
+  { book: 'Habakkuk', chapter: 3, verse: 1, text: 'A prayer of Habakkuk the prophet. On shigionoth.' },
+
+  // Zephaniah (All 3 chapters)
+  { book: 'Zephaniah', chapter: 1, verse: 1, text: 'The word of the Lord that came to Zephaniah son of Cushi, the son of Gedaliah, the son of Amariah, the son of Hezekiah, during the reign of Josiah son of Amon, king of Judah.' },
+  { book: 'Zephaniah', chapter: 2, verse: 1, text: 'Gather together, gather yourselves together, you shameful nation, before the decree takes effect and that day sweeps on like chaff, before the Lord\'s fierce anger comes upon you.' },
+  { book: 'Zephaniah', chapter: 3, verse: 17, text: 'The Lord your God is with you, the Mighty Warrior who saves. He will take great delight in you; in his love he will no longer rebuke you, but will rejoice over you with singing.' },
+
+  // Haggai (All 2 chapters)
+  { book: 'Haggai', chapter: 1, verse: 1, text: 'In the second year of King Darius, on the first day of the sixth month, the word of the Lord came through the prophet Haggai to Zerubbabel son of Shealtiel, governor of Judah, and to Joshua son of Jozadak, the high priest.' },
+  { book: 'Haggai', chapter: 2, verse: 4, text: 'But now be strong, Zerubbabel,\' declares the Lord. \'Be strong, Joshua son of Jozadak, the high priest. Be strong, all you people of the land,\' declares the Lord.' },
+
+  // Zechariah (Chapters 1-3)
+  { book: 'Zechariah', chapter: 1, verse: 1, text: 'In the eighth month of the second year of Darius, the word of the Lord came to the prophet Zechariah son of Berekiah, the son of Iddo.' },
   { book: 'Zechariah', chapter: 2, verse: 8, text: 'For this is what the Lord Almighty says: "After the Glorious One has sent me against the nations that have plundered you—for whoever touches you touches the apple of his eye."' },
-  { book: 'Malachi', chapter: 3, verse: 10, text: 'Bring the whole tithe into the storehouse that there may be food in my house.' },
+  { book: 'Zechariah', chapter: 3, verse: 1, text: 'Then he showed me Joshua the high priest standing before the angel of the Lord, and Satan standing at his right side to accuse him.' },
+
+  // Malachi (All 4 chapters)
+  { book: 'Malachi', chapter: 1, verse: 1, text: 'A prophecy: The word of the Lord to Israel through Malachi.' },
+  { book: 'Malachi', chapter: 2, verse: 1, text: '"Now, you priests, this warning is for you."' },
+  { book: 'Malachi', chapter: 3, verse: 10, text: 'Bring the whole tithe into the storehouse, that there may be food in my house. Test me in this," says the Lord Almighty, "and see if I will not throw open the floodgates of heaven and pour out so much blessing that there will not be room enough to store it."' },
+  { book: 'Malachi', chapter: 4, verse: 1, text: '"Surely the day is coming; it will burn like a furnace. All the arrogant and every evildoer will be stubble, and the day that is coming will set them on fire," says the Lord Almighty.' },
 ];
 
 // NEW TESTAMENT VERSES - mapped to their correct locations
