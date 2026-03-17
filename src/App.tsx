@@ -4,6 +4,7 @@ import { useNotesStore } from './store/useNotesStore';
 import { NotesService } from './services/NotesService';
 import { SearchPage } from './pages/SearchPage';
 import { BrowsePage } from './pages/BrowsePage';
+import { DevotionalsPage } from './pages/DevotionalsPage';
 import { NotesPanel } from './components/Notes/NotesPanel';
 import BibleReader from './components/Bible/BibleReader';
 import './index.css';
@@ -90,6 +91,8 @@ function App() {
         return <BrowsePage isDarkMode={isDarkMode} onNavigateToPage={setCurrentPage} />;
       case 'bible':
         return <BibleReader isDarkMode={isDarkMode} />;
+      case 'devotionals':
+        return <DevotionalsPage isDarkMode={isDarkMode} onNavigateToPage={setCurrentPage} />;
       case 'notes':
         return <NotesPanel isDarkMode={isDarkMode} />;
       case 'home':
