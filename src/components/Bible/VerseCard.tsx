@@ -59,9 +59,17 @@ export default function VerseCard({
   const highlightColor = highlightInfo?.color || 'yellow';
   const colorClasses = HIGHLIGHT_COLORS[highlightColor];
 
+  const handleCardClick = (e: React.MouseEvent) => {
+    // Don't trigger selection if clicking on interactive elements
+    if ((e.target as HTMLElement).closest('button')) {
+      return;
+    }
+    onSelect();
+  };
+
   return (
     <div
-      onClick={onSelect}
+      onClick={handleCardClick}
       className={`p-3 rounded-lg cursor-pointer transition-colors duration-150 border-l-4 relative ${
         highlightInfo && !isSelected
           ? `${colorClasses.bg} ${colorClasses.border}`
