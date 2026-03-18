@@ -38,6 +38,10 @@ interface ProgressState {
   clearProgress: () => void;
 }
 
+// Track initialization to prevent infinite loops
+let initializationInProgress = false;
+let initialized = false;
+
 export const useProgressStore = create<ProgressState>()(
   persist(
     (set) => ({
@@ -69,11 +73,28 @@ export const useProgressStore = create<ProgressState>()(
       motivationTips: [],
 
       initializeAchievements: async () => {
-        await ProgressService.initializeAchievements();
-        set({
-          achievements: ProgressService.getAchievements(),
-          motivationTips: ProgressService.getMotivationTips()
-        });
+        // Prevent multiple simultaneous initializations
+        if (initializationInProgress || initialized) {
+          return;
+        }
+
+        initializationInProgress = true;
+        try {
+          await ProgressService.initializeAchievements();
+          // Only update if state actually changed
+          const newAchievements = ProgressService.getAchievements();
+          const newTips = ProgressService.getMotivationTips();
+
+          if (newAchievements && newAchievements.length > 0) {
+            set({
+              achievements: newAchievements,
+              motivationTips: newTips
+            });
+            initialized = true;
+          }
+        } finally {
+          initializationInProgress = false;
+        }
       },
 
       updateProgress: (completionStats: CompletionStats) => {

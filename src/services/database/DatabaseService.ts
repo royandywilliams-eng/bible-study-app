@@ -120,6 +120,22 @@ interface BibleDB extends DBSchema {
       'by-unlocked': number;
     };
   };
+  completionStats: {
+    key: string;
+    value: {
+      id: string;
+      booksCompleted: number;
+      chaptersCompleted: number;
+      versesRead: number;
+      notesCreated: number;
+      highlightsCreated: number;
+      devotionalsCompleted: number;
+      lessonsCompleted: number;
+      coursesEnrolled: number;
+      coursesCompleted: number;
+      lastUpdated: number;
+    };
+  };
 }
 
 class DatabaseService {
@@ -196,6 +212,11 @@ class DatabaseService {
         if (!db.objectStoreNames.contains('achievements')) {
           const achievementsStore = db.createObjectStore('achievements', { keyPath: 'id' });
           achievementsStore.createIndex('by-unlocked', 'unlockedAt');
+        }
+
+        // Completion Stats store
+        if (!db.objectStoreNames.contains('completionStats')) {
+          db.createObjectStore('completionStats', { keyPath: 'id' });
         }
       },
     });
@@ -295,9 +316,31 @@ class DatabaseService {
     await db.delete('achievements', id);
   }
 
+  async saveCompletionStats(stats: {
+    id: string;
+    booksCompleted: number;
+    chaptersCompleted: number;
+    versesRead: number;
+    notesCreated: number;
+    highlightsCreated: number;
+    devotionalsCompleted: number;
+    lessonsCompleted: number;
+    coursesEnrolled: number;
+    coursesCompleted: number;
+    lastUpdated: number;
+  }): Promise<void> {
+    const db = await this.getDB();
+    await db.put('completionStats', stats);
+  }
+
+  async getCompletionStats(): Promise<any | undefined> {
+    const db = await this.getDB();
+    return db.get('completionStats', 'main-stats');
+  }
+
   async clearAllData(): Promise<void> {
     const db = await this.getDB();
-    const stores = ['bibleBooks', 'userNotes', 'userProgress', 'bookmarks', 'completedLessons', 'searchIndex', 'achievements'] as const;
+    const stores = ['bibleBooks', 'userNotes', 'userProgress', 'bookmarks', 'completedLessons', 'searchIndex', 'achievements', 'completionStats'] as const;
     const tx = db.transaction(stores, 'readwrite');
     for (const store of stores) {
       await tx.objectStore(store).clear();

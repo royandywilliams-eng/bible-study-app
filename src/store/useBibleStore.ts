@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Testament, BibleBook } from '../types/bible';
+import { ProgressService } from '../services/ProgressService';
 
 interface CurrentPassage {
   testament: Testament;
@@ -58,19 +59,36 @@ export const useBibleStore = create<BibleStoreState>()(
 
       setCurrentPassage: (passage) => set({ currentPassage: passage }),
 
-      setSelectedVerses: (verseIds) => set({ selectedVerses: verseIds }),
+      setSelectedVerses: (verseIds) => {
+        set({ selectedVerses: verseIds });
+        // Update progress stats
+        ProgressService.calculateAndStoreStats(verseIds, []).catch(error => {
+          console.error('Failed to update stats:', error);
+        });
+      },
 
       toggleVerseSelection: (verseId) =>
         set((state) => {
           const isSelected = state.selectedVerses.includes(verseId);
-          return {
-            selectedVerses: isSelected
-              ? state.selectedVerses.filter((id) => id !== verseId)
-              : [...state.selectedVerses, verseId],
-          };
+          const updatedVerses = isSelected
+            ? state.selectedVerses.filter((id) => id !== verseId)
+            : [...state.selectedVerses, verseId];
+
+          // Update progress stats
+          ProgressService.calculateAndStoreStats(updatedVerses, []).catch(error => {
+            console.error('Failed to update stats:', error);
+          });
+
+          return { selectedVerses: updatedVerses };
         }),
 
-      clearSelection: () => set({ selectedVerses: [] }),
+      clearSelection: () => {
+        set({ selectedVerses: [] });
+        // Update progress stats
+        ProgressService.calculateAndStoreStats([], []).catch(error => {
+          console.error('Failed to update stats:', error);
+        });
+      },
 
       setBibleVersion: (version) => set({ bibleVersion: version }),
     }),

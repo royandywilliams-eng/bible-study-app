@@ -231,7 +231,7 @@ class ProgressServiceClass {
       ];
 
       // Merge persisted achievements with new ones
-      achievementList.forEach(a => {
+      achievementList.forEach((a) => {
         const persisted = persistedMap.get(a.id);
         if (persisted && persisted.unlockedAt) {
           // Keep persisted unlock time and progress
@@ -508,6 +508,63 @@ class ProgressServiceClass {
       completionStats: this.getCompletionStats(),
       motivationTips: this.getMotivationTips()
     };
+  }
+
+  async calculateAndStoreStats(
+    selectedVerses: string[] = [],
+    notes: unknown[] = [],
+    devotionalsCompleted: number = 0,
+    lessonsCompleted: number = 0,
+    coursesEnrolled: number = 0,
+    coursesCompleted: number = 0
+  ): Promise<void> {
+    try {
+      // Calculate current stats
+      const stats = this.getCompletionStats(
+        selectedVerses,
+        notes,
+        devotionalsCompleted,
+        lessonsCompleted,
+        coursesEnrolled,
+        coursesCompleted
+      );
+
+      // Save to database
+      await DatabaseService.saveCompletionStats({
+        id: 'main-stats',
+        ...stats,
+        lastUpdated: Date.now()
+      });
+
+      // Also update achievements based on new stats
+      this.updateProgress();
+    } catch (error) {
+      console.error('Failed to calculate and store stats:', error);
+    }
+  }
+
+  async getStoredStats(): Promise<any> {
+    try {
+      const stats = await DatabaseService.getCompletionStats();
+      if (stats) {
+        return stats;
+      }
+      // Return default if not found
+      return {
+        booksCompleted: 0,
+        chaptersCompleted: 0,
+        versesRead: 0,
+        notesCreated: 0,
+        highlightsCreated: 0,
+        devotionalsCompleted: 0,
+        lessonsCompleted: 0,
+        coursesEnrolled: 0,
+        coursesCompleted: 0
+      };
+    } catch (error) {
+      console.error('Failed to get stored stats:', error);
+      return null;
+    }
   }
 
   clear(): void {

@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware';
 import type { Note, HighlightColor, NoteType, NoteFilter } from '../services/NotesService';
 import { NotesService } from '../services/NotesService';
 import type { SearchResult } from '../services/SearchService';
+import { ProgressService } from '../services/ProgressService';
 
 interface NotesState {
   notes: Note[];
@@ -34,12 +35,22 @@ export const useNotesStore = create<NotesState>()(
 
       addNote: (result, type, highlightColor, noteText) => {
         NotesService.addNote(result, type, highlightColor, noteText);
-        set({ notes: NotesService.getAllNotes() });
+        const updatedNotes = NotesService.getAllNotes();
+        set({ notes: updatedNotes });
+        // Update progress stats
+        ProgressService.calculateAndStoreStats([], updatedNotes).catch(error => {
+          console.error('Failed to update stats:', error);
+        });
       },
 
       removeNote: (passageId) => {
         NotesService.removeNote(passageId);
-        set({ notes: NotesService.getAllNotes() });
+        const updatedNotes = NotesService.getAllNotes();
+        set({ notes: updatedNotes });
+        // Update progress stats
+        ProgressService.calculateAndStoreStats([], updatedNotes).catch(error => {
+          console.error('Failed to update stats:', error);
+        });
       },
 
       getNote: (passageId) => {

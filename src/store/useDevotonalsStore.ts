@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { DevotionalsService, type Devotional } from '../services/DevotionalsService';
+import { ProgressService } from '../services/ProgressService';
 
 export type DifficultyLevel = 'beginner' | 'intermediate' | 'advanced' | 'all';
 
@@ -74,6 +75,10 @@ export const useDevotonalsStore = create<DevotionalsState>()(
         set({
           completedIds,
           todayDevotional: DevotionalsService.getTodayDevotional()
+        });
+        // Update progress stats
+        ProgressService.calculateAndStoreStats([], [], completedIds.length).catch(error => {
+          console.error('Failed to update stats:', error);
         });
       },
 
