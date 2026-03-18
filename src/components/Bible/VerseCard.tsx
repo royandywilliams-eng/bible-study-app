@@ -32,6 +32,9 @@ export default function VerseCard({
     const passageId = `${bookName} ${chapterNum}:${verseNum}`;
     const note = notes.find(n => n.passageId === passageId);
 
+    if (note) {
+      console.log('📌 Found note for', passageId, '- Type:', note.type, 'Color:', note.highlightColor);
+    }
     if (!note) return null;
     if (note.type === 'highlight' && note.highlightColor && note.highlightColor !== 'none') {
       return {
