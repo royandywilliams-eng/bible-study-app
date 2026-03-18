@@ -60,11 +60,14 @@ export default function VerseCard({
   const colorClasses = HIGHLIGHT_COLORS[highlightColor];
 
   const handleClick = (e: React.MouseEvent) => {
-    // Don't trigger selection if clicking on a button
     const target = e.target as HTMLElement;
+    console.log('🎯 VerseCard.handleClick fired! Target:', target.tagName, 'nearest button?', target.closest('button'));
+    // Don't trigger selection if clicking on a button
     if (target.closest('button')) {
+      console.log('🚫 Click was on button, ignoring');
       return;
     }
+    console.log('✅ VerseCard.onSelect() called');
     onSelect();
   };
 

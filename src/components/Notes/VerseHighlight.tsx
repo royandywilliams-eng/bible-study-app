@@ -28,9 +28,13 @@ export const VerseHighlight: React.FC<VerseHighlightProps> = ({ result, isDarkMo
   ];
 
   const handleHighlight = (color: HighlightColor) => {
+    console.log('🎨 handleHighlight called with color:', color, 'passageId:', passageId);
+    console.log('📝 isHighlighted:', isHighlighted(passageId), 'existingNote:', existingNote);
     if (isHighlighted(passageId) && existingNote?.highlightColor === color) {
+      console.log('❌ Removing highlight');
       removeNote(passageId);
     } else {
+      console.log('✅ Adding highlight with type: highlight, color:', color);
       addNote(result, 'highlight', color);
     }
   };
@@ -79,7 +83,10 @@ export const VerseHighlight: React.FC<VerseHighlightProps> = ({ result, isDarkMo
             <button
               key={color}
               onClick={(e) => {
+                console.log('🔘 Button clicked! Color:', color);
+                console.log('📍 Event target:', e.target);
                 e.stopPropagation();
+                console.log('🛑 stopPropagation called');
                 handleHighlight(color);
               }}
               type="button"
