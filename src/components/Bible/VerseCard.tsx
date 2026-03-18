@@ -69,7 +69,7 @@ export default function VerseCard({
     <div
       onMouseDown={handleMouseDown}
       className={`p-3 rounded-lg cursor-pointer transition-colors duration-150 border-l-4 relative ${
-        highlightInfo && !isSelected
+        highlightInfo
           ? `${colorClasses.bg} ${colorClasses.border}`
           : isSelected
           ? 'bg-yellow-100 dark:bg-yellow-900 border-l-yellow-400 dark:border-l-yellow-600'
