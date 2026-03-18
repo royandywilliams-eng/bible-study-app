@@ -59,20 +59,18 @@ export default function VerseCard({
   const highlightColor = highlightInfo?.color || 'yellow';
   const colorClasses = HIGHLIGHT_COLORS[highlightColor];
 
-  const handleMouseDown = (e: React.MouseEvent) => {
+  const handleClick = (e: React.MouseEvent) => {
     // Don't trigger selection if clicking on a button
     const target = e.target as HTMLElement;
     if (target.closest('button')) {
       return;
     }
-    e.preventDefault();
-    e.stopPropagation();
     onSelect();
   };
 
   return (
     <div
-      onMouseDown={handleMouseDown}
+      onClick={handleClick}
       className={`p-3 rounded-lg cursor-pointer transition-colors duration-150 border-l-4 relative ${
         highlightInfo
           ? `${colorClasses.bg} ${colorClasses.border}`
