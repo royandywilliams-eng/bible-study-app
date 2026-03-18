@@ -60,6 +60,11 @@ export default function VerseCard({
   const colorClasses = HIGHLIGHT_COLORS[highlightColor];
 
   const handleMouseDown = (e: React.MouseEvent) => {
+    // Don't trigger selection if clicking on a button
+    const target = e.target as HTMLElement;
+    if (target.closest('button')) {
+      return;
+    }
     e.preventDefault();
     e.stopPropagation();
     onSelect();
