@@ -127,7 +127,7 @@ export default function BibleReader({ isDarkMode = false }: BibleReaderProps) {
   }
 
   return (
-    <div className="max-w-5xl mx-auto p-4 md:p-8">
+    <div style={{ marginLeft: '60px' }} className="p-4 md:p-8">
       {/* Header with selectors */}
       <div className="bg-white dark:bg-slate-900 rounded-lg shadow-md p-6 mb-6">
         <h2 className="text-2xl font-bold mb-4">📖 Bible Reading</h2>

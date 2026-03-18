@@ -93,16 +93,18 @@ export const ProgressDashboardPage: React.FC<ProgressDashboardPageProps> = ({
   };
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
+    <div className={`min-h-screen w-full ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-900'}`}>
       {/* Header */}
       <div className={`${isDarkMode ? 'bg-gradient-to-r from-blue-900 to-indigo-900' : 'bg-gradient-to-r from-blue-500 to-indigo-600'} px-4 py-6 shadow-lg`}>
-        <h1 className="text-3xl font-bold mb-2">Your Progress Dashboard</h1>
-        <p className="text-gray-200">Track your spiritual growth journey</p>
+        <div style={{ marginLeft: '60px' }}>
+          <h1 className="text-3xl font-bold mb-2">Your Progress Dashboard</h1>
+          <p className="text-gray-200">Track your spiritual growth journey</p>
+        </div>
       </div>
 
       {/* Tab Navigation */}
       <div className={`sticky top-0 z-40 ${isDarkMode ? 'bg-gray-800' : 'bg-white'} border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
-        <div className="max-w-6xl mx-auto px-4 flex gap-0">
+        <div style={{ marginLeft: '60px' }} className="flex gap-0">
           {(['overview', 'achievements', 'stats', 'tips'] as const).map((tab) => (
             <button
               key={tab}
@@ -120,7 +122,7 @@ export const ProgressDashboardPage: React.FC<ProgressDashboardPageProps> = ({
       </div>
 
       {/* Content */}
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div style={{ marginLeft: '60px' }} className="py-8">
         {/* Overview Tab */}
         {activeTab === 'overview' && (
           <div className="space-y-8">

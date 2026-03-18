@@ -33,7 +33,7 @@ export default function BibleReaderPage() {
       <Header isDarkMode={isDarkMode} onThemeChange={setIsDarkMode} />
       <div className="flex flex-col md:flex-row">
         <Navigation />
-        <main className="flex-1 overflow-auto">
+        <main className="flex-1 overflow-auto w-full">
           <BibleReader />
         </main>
       </div>
