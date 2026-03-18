@@ -78,17 +78,42 @@ export default function VerseCard({
     onSelect();
   };
 
+  // Get highlight color for inline style
+  let bgColor = '#f8fafc'; // default slate-50
+  let borderColor = '#cbd5e1'; // default border-l-slate-300
+
+  if (highlightInfo) {
+    // Use the bgLight value from VerseHighlight for inline style
+    const bgMap: Record<string, string> = {
+      yellow: '#fef08a',
+      blue: '#bfdbfe',
+      green: '#bbf7d0',
+      pink: '#fbcfe8',
+    };
+    const borderMap: Record<string, string> = {
+      yellow: '#facc15',
+      blue: '#60a5fa',
+      green: '#4ade80',
+      pink: '#ec4899',
+    };
+    bgColor = bgMap[highlightInfo.color] || '#fef08a';
+    borderColor = borderMap[highlightInfo.color] || '#facc15';
+  } else if (isSelected) {
+    bgColor = '#fef3c7'; // yellow-100
+    borderColor = '#fbbf24'; // yellow-400
+  }
+
   return (
     <div
       onClick={handleClick}
-      className={`p-3 rounded-lg cursor-pointer transition-colors duration-150 border-l-4 relative ${
-        highlightInfo
-          ? `${colorClasses.bg} ${colorClasses.border}`
-          : isSelected
-          ? 'bg-yellow-100 dark:bg-yellow-900 border-l-yellow-400 dark:border-l-yellow-600'
-          : 'bg-slate-50 dark:bg-slate-800 border-l-slate-300 dark:border-l-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700'
-      }`}
-      style={{ pointerEvents: 'auto', userSelect: 'none', WebkitUserSelect: 'none' }}
+      className={`p-3 rounded-lg cursor-pointer transition-colors duration-150 border-l-4 relative`}
+      style={{
+        pointerEvents: 'auto',
+        userSelect: 'none',
+        WebkitUserSelect: 'none',
+        backgroundColor: bgColor,
+        borderLeftColor: borderColor,
+      }}
     >
       <div className="flex gap-3 items-start">
         <span className="font-bold text-sm text-slate-600 dark:text-slate-400 min-w-fit">{verseNum}.</span>
