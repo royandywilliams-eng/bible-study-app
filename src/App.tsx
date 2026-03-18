@@ -1,17 +1,21 @@
 import { useState, useEffect } from 'react';
 import { useBibleStore } from './store/useBibleStore';
 import { useNotesStore } from './store/useNotesStore';
+import { useMemoryVerseStore } from './store/useMemoryVerseStore';
 import { NotesService } from './services/NotesService';
+import { MemoryVerseService } from './services/MemoryVerseService';
 import { SearchPage } from './pages/SearchPage';
 import { BrowsePage } from './pages/BrowsePage';
 import { DevotionalsPage } from './pages/DevotionalsPage';
 import { StudyGuidesPage } from './pages/StudyGuidesPage';
 import { ProgressDashboardPage } from './pages/ProgressDashboardPage';
+import { BookmarksSidebarPage } from './pages/BookmarksSidebarPage';
+import { MemoryVersePage } from './pages/MemoryVersePage';
 import { NotesPanel } from './components/Notes/NotesPanel';
 import BibleReader from './components/Bible/BibleReader';
 import './index.css';
 
-type PageType = 'home' | 'search' | 'browse' | 'bible' | 'devotionals' | 'notes' | 'studyGuides' | 'progress' | 'settings';
+export type PageType = 'home' | 'search' | 'browse' | 'bible' | 'devotionals' | 'notes' | 'studyGuides' | 'progress' | 'bookmarks' | 'memory' | 'settings';
 
 function App() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -20,6 +24,7 @@ function App() {
 
   const { bibleBooks, initializeBibleData } = useBibleStore();
   const notes = useNotesStore((state) => state.notes);
+  const memoryVerses = useMemoryVerseStore((state) => state.memoryVerses);
 
   // Initialize Bible data on mount
   useEffect(() => {
@@ -42,6 +47,11 @@ function App() {
   useEffect(() => {
     NotesService.hydrate(notes);
   }, [notes]);
+
+  // Keep MemoryVerseService in sync with store
+  useEffect(() => {
+    MemoryVerseService.hydrate(memoryVerses);
+  }, [memoryVerses]);
 
   const renderNavigationButton = (page: PageType, label: string, emoji: string) => (
     <button
@@ -101,6 +111,10 @@ function App() {
         return <ProgressDashboardPage isDarkMode={isDarkMode} onNavigateToPage={setCurrentPage} />;
       case 'notes':
         return <NotesPanel isDarkMode={isDarkMode} />;
+      case 'bookmarks':
+        return <BookmarksSidebarPage isDarkMode={isDarkMode} onNavigateToPage={setCurrentPage} />;
+      case 'memory':
+        return <MemoryVersePage isDarkMode={isDarkMode} />;
       case 'home':
       default:
         return (
@@ -195,10 +209,11 @@ function App() {
         {renderNavigationButton('browse', 'Browse', '📚')}
         {renderNavigationButton('bible', 'Bible', '📖')}
         {renderNavigationButton('notes', 'Notes', '📋')}
+        {renderNavigationButton('bookmarks', 'Bookmarks', '🔖')}
+        {renderNavigationButton('memory', 'Memory', '🧠')}
         {renderNavigationButton('devotionals', 'Devotionals', '✨')}
         {renderNavigationButton('studyGuides', 'Study Guides', '🎓')}
         {renderNavigationButton('progress', 'Progress', '📊')}
-        {renderNavigationButton('settings', 'Settings', '⚙️')}
       </nav>
 
       {/* Main Content */}
