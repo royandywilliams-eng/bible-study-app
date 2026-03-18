@@ -62,6 +62,10 @@ export default function VerseCard({
   const highlightColor = highlightInfo?.color || 'yellow';
   const colorClasses = HIGHLIGHT_COLORS[highlightColor];
 
+  if (highlightInfo) {
+    console.log('🎨 VerseCard rendering highlight - color:', highlightColor, 'bg class:', colorClasses.bg, 'border:', colorClasses.border);
+  }
+
   const handleClick = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
     console.log('🎯 VerseCard.handleClick fired! Target:', target.tagName, 'nearest button?', target.closest('button'));
