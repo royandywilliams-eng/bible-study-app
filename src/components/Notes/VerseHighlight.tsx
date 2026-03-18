@@ -78,6 +78,10 @@ export const VerseHighlight: React.FC<VerseHighlightProps> = ({ result, isDarkMo
           {highlightColors.map(({ color, label, bgLight, bgDark }) => (
             <button
               key={color}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
