@@ -105,6 +105,21 @@ interface BibleDB extends DBSchema {
       lastUpdated: number;
     };
   };
+  achievements: {
+    key: string;
+    value: {
+      id: string;
+      title: string;
+      description: string;
+      icon: string;
+      unlockedAt?: number;
+      progress?: number;
+      target?: number;
+    };
+    indexes: {
+      'by-unlocked': number;
+    };
+  };
 }
 
 class DatabaseService {
@@ -176,6 +191,12 @@ class DatabaseService {
         if (!db.objectStoreNames.contains('searchIndex')) {
           db.createObjectStore('searchIndex', { keyPath: 'id' });
         }
+
+        // Achievements store
+        if (!db.objectStoreNames.contains('achievements')) {
+          const achievementsStore = db.createObjectStore('achievements', { keyPath: 'id' });
+          achievementsStore.createIndex('by-unlocked', 'unlockedAt');
+        }
       },
     });
   }
@@ -246,9 +267,37 @@ class DatabaseService {
     return db.get('userProgress', 'progress-summary');
   }
 
+  async addOrUpdateAchievement(achievement: {
+    id: string;
+    title: string;
+    description: string;
+    icon: string;
+    unlockedAt?: number;
+    progress?: number;
+    target?: number;
+  }): Promise<void> {
+    const db = await this.getDB();
+    await db.put('achievements', achievement);
+  }
+
+  async getAchievement(id: string): Promise<any | undefined> {
+    const db = await this.getDB();
+    return db.get('achievements', id);
+  }
+
+  async getAllAchievements(): Promise<any[]> {
+    const db = await this.getDB();
+    return db.getAll('achievements');
+  }
+
+  async deleteAchievement(id: string): Promise<void> {
+    const db = await this.getDB();
+    await db.delete('achievements', id);
+  }
+
   async clearAllData(): Promise<void> {
     const db = await this.getDB();
-    const stores = ['bibleBooks', 'userNotes', 'userProgress', 'bookmarks', 'completedLessons', 'searchIndex'] as const;
+    const stores = ['bibleBooks', 'userNotes', 'userProgress', 'bookmarks', 'completedLessons', 'searchIndex', 'achievements'] as const;
     const tx = db.transaction(stores, 'readwrite');
     for (const store of stores) {
       await tx.objectStore(store).clear();

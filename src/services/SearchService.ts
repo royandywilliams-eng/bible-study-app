@@ -15,11 +15,18 @@ export interface SearchResult {
 class SearchServiceClass {
   private searchIndex: lunr.Index | null = null;
   private verseMap: Map<string, SearchResult> = new Map();
+  private indexBuilt: boolean = false;
 
   /**
    * Build search index from all Bible books
    */
   async buildSearchIndex(books: BibleBook[]): Promise<void> {
+    // Skip if index already built
+    if (this.indexBuilt && this.searchIndex) {
+      return;
+    }
+
+
     const documents: any[] = [];
     this.verseMap.clear();
 
@@ -63,6 +70,8 @@ class SearchServiceClass {
 
       documents.forEach((doc: any) => this.add(doc));
     });
+
+    this.indexBuilt = true;
   }
 
   /**

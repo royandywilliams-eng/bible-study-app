@@ -30,30 +30,27 @@ export const ProgressDashboardPage: React.FC<ProgressDashboardPageProps> = ({
   } = useProgressStore();
 
   // Get data from other stores
-  const bibleSessions = useBibleStore((state) => state.selectedVerses?.length || 0);
+  const selectedVerses = useBibleStore((state) => state.selectedVerses || []);
   const notes = useNotesStore((state) => state.notes);
   const devotionalStats = useDevotonalsStore((state) => state.getStats?.());
   const studyStats = useStudyGuidesStore((state) => state.getStats?.());
 
   useEffect(() => {
     // Initialize achievements on first load
-    initializeAchievements();
+    initializeAchievements().catch(error => console.error('Failed to initialize achievements:', error));
 
-    // Calculate completion stats from actual store data
-    const completionStats = {
-      booksCompleted: 0, // Will be calculated from Bible progress
-      chaptersCompleted: bibleSessions,
-      versesRead: 0, // Will be calculated
-      notesCreated: notes.length,
-      highlightsCreated: notes.filter((n) => n.highlightColor && n.highlightColor !== 'none').length,
-      devotionalsCompleted: devotionalStats?.completed || 0,
-      lessonsCompleted: 0, // Will be calculated from study progress
-      coursesEnrolled: studyStats?.enrolled || 0,
-      coursesCompleted: studyStats?.completed || 0
-    };
+    // Calculate completion stats using the ProgressService
+    const completionStats = getCompletionStats(
+      selectedVerses,
+      notes,
+      devotionalStats?.completed || 0,
+      studyStats?.totalLessonsCompleted || 0,
+      studyStats?.enrolled || 0,
+      studyStats?.completed || 0
+    );
 
     updateProgress(completionStats);
-  }, [bibleSessions, notes.length, devotionalStats, studyStats]);
+  }, [selectedVerses, notes.length, devotionalStats, studyStats, getCompletionStats]);
 
   const achievements = getAchievements();
   const unlockedAchievements = getUnlockedAchievements();

@@ -10,7 +10,7 @@ interface ProgressState {
   motivationTips: string[];
 
   // Actions
-  initializeAchievements: () => void;
+  initializeAchievements: () => Promise<void>;
   updateProgress: (completionStats: CompletionStats) => void;
   updateReadingStreak: (readToday: boolean) => void;
   addSession: (minutesRead: number) => void;
@@ -19,7 +19,14 @@ interface ProgressState {
   getAchievementProgress: () => number;
   getReadingStreak: () => ReadingStreak;
   getSessionStats: () => SessionStats;
-  getCompletionStats: () => CompletionStats;
+  getCompletionStats: (
+    selectedVerses?: string[],
+    notes?: unknown[],
+    devotionalsCompleted?: number,
+    lessonsCompleted?: number,
+    coursesEnrolled?: number,
+    coursesCompleted?: number
+  ) => CompletionStats;
   getMotivationTips: () => string[];
   getProgressOverview: () => {
     achievements: Achievement[];
@@ -61,8 +68,8 @@ export const useProgressStore = create<ProgressState>()(
       },
       motivationTips: [],
 
-      initializeAchievements: () => {
-        ProgressService.initializeAchievements();
+      initializeAchievements: async () => {
+        await ProgressService.initializeAchievements();
         set({
           achievements: ProgressService.getAchievements(),
           motivationTips: ProgressService.getMotivationTips()
@@ -118,8 +125,22 @@ export const useProgressStore = create<ProgressState>()(
         return ProgressService.getSessionStats();
       },
 
-      getCompletionStats: () => {
-        return ProgressService.getCompletionStats();
+      getCompletionStats: (
+        selectedVerses: string[] = [],
+        notes: unknown[] = [],
+        devotionalsCompleted: number = 0,
+        lessonsCompleted: number = 0,
+        coursesEnrolled: number = 0,
+        coursesCompleted: number = 0
+      ) => {
+        return ProgressService.getCompletionStats(
+          selectedVerses,
+          notes,
+          devotionalsCompleted,
+          lessonsCompleted,
+          coursesEnrolled,
+          coursesCompleted
+        );
       },
 
       getMotivationTips: () => {

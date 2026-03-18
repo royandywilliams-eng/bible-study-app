@@ -1,3 +1,4 @@
+import DatabaseService from './database/DatabaseService';
 
 export interface Achievement {
   id: string;
@@ -53,8 +54,17 @@ class ProgressServiceClass {
   };
   private sessionHistory: { date: string; minutesRead: number }[] = [];
 
-  initializeAchievements(): void {
-    const achievementList: Achievement[] = [
+  async initializeAchievements(): Promise<void> {
+    // Load persisted achievements from database first
+    try {
+      const persistedAchievements = await DatabaseService.getAllAchievements();
+      const persistedMap = new Map(persistedAchievements.map((a: unknown) => {
+        const achievement = a as Achievement;
+        return [achievement.id, achievement];
+      }));
+
+      // Initialize with all achievements
+      const achievementList: Achievement[] = [
       // Reading Achievements
       {
         id: 'first-chapter',
@@ -218,15 +228,58 @@ class ProgressServiceClass {
         target: 30,
         progress: 0
       }
-    ];
+      ];
 
-    achievementList.forEach(a => this.achievements.set(a.id, a));
+      // Merge persisted achievements with new ones
+      achievementList.forEach(a => {
+        const persisted = persistedMap.get(a.id);
+        if (persisted && persisted.unlockedAt) {
+          // Keep persisted unlock time and progress
+          a.unlockedAt = persisted.unlockedAt;
+          a.progress = persisted.progress;
+        }
+        this.achievements.set(a.id, a);
+      });
+    } catch (error) {
+      console.error('Failed to load persisted achievements:', error);
+      // Fall back to initializing without persisted data
+      const achievementList: Achievement[] = [
+        {id: 'first-chapter', title: 'First Steps', description: 'Read your first chapter of the Bible', icon: '📖', target: 1, progress: 0},
+        {id: 'reading-marathon', title: 'Marathon Reader', description: 'Read 10 chapters', icon: '🏃', target: 10, progress: 0},
+        {id: 'book-complete', title: 'Book Master', description: 'Complete reading an entire book', icon: '✅', target: 1, progress: 0},
+        {id: 'ot-explorer', title: 'OT Explorer', description: 'Read from all OT books', icon: '🗺️', target: 39, progress: 0},
+        {id: 'nt-explorer', title: 'NT Explorer', description: 'Read from all NT books', icon: '🗺️', target: 27, progress: 0},
+        {id: 'note-taker', title: 'Reflective Soul', description: 'Create your first note', icon: '📝', target: 1, progress: 0},
+        {id: 'highlight-artist', title: 'Color Coder', description: 'Create 10 highlights', icon: '🌈', target: 10, progress: 0},
+        {id: 'annotation-expert', title: 'Annotation Expert', description: 'Create 50 notes', icon: '📚', target: 50, progress: 0},
+        {id: 'daily-reader', title: 'Daily Reader', description: 'Complete 7 devotionals in a row', icon: '✨', target: 7, progress: 0},
+        {id: 'devotion-master', title: 'Devotion Master', description: 'Complete 30 devotionals', icon: '🌟', target: 30, progress: 0},
+        {id: 'one-year-plan', title: 'One Year Devotion', description: 'Complete 365 devotionals', icon: '🏆', target: 365, progress: 0},
+        {id: 'course-starter', title: 'Course Starter', description: 'Enroll in your first study course', icon: '🎓', target: 1, progress: 0},
+        {id: 'course-complete', title: 'Course Graduate', description: 'Complete your first course', icon: '🎉', target: 1, progress: 0},
+        {id: 'scholar', title: 'Scholar', description: 'Complete 3 courses', icon: '👨‍🎓', target: 3, progress: 0},
+        {id: 'one-hour', title: 'One Hour Club', description: 'Spend 1 hour reading', icon: '⏱️', target: 60, progress: 0},
+        {id: 'ten-hours', title: 'Ten Hour Devotee', description: 'Spend 10 hours reading', icon: '⏳', target: 600, progress: 0},
+        {id: 'century-reader', title: 'Century Reader', description: 'Spend 100 hours reading', icon: '💯', target: 6000, progress: 0},
+        {id: 'streak-week', title: 'Week Warrior', description: 'Maintain a 7-day reading streak', icon: '🔥', target: 7, progress: 0},
+        {id: 'streak-month', title: 'Month Master', description: 'Maintain a 30-day reading streak', icon: '🔥🔥', target: 30, progress: 0}
+      ];
+      achievementList.forEach(a => this.achievements.set(a.id, a));
+    }
   }
 
   updateProgress(): void {
     // This would be called whenever progress changes
     // Updates achievement progress based on current stats
     const completionStats = this.getCompletionStats();
+    const previouslyUnlockedIds = new Set<string>();
+
+    // Track previously unlocked achievements
+    this.achievements.forEach((achievement) => {
+      if (achievement.unlockedAt) {
+        previouslyUnlockedIds.add(achievement.id);
+      }
+    });
 
     // Update achievement progress
     this.achievements.forEach((achievement) => {
@@ -286,6 +339,26 @@ class ProgressServiceClass {
           }
           break;
       }
+
+      // Save newly unlocked achievements to database
+      if (!previouslyUnlockedIds.has(achievement.id) && achievement.unlockedAt) {
+        this.saveAchievementToDatabase(achievement);
+      }
+    });
+  }
+
+  private saveAchievementToDatabase(achievement: Achievement): void {
+    // Save asynchronously without blocking
+    DatabaseService.addOrUpdateAchievement({
+      id: achievement.id,
+      title: achievement.title,
+      description: achievement.description,
+      icon: achievement.icon,
+      unlockedAt: achievement.unlockedAt,
+      progress: achievement.progress,
+      target: achievement.target
+    }).catch((error) => {
+      console.error(`Failed to save achievement ${achievement.id}:`, error);
     });
   }
 
@@ -350,19 +423,56 @@ class ProgressServiceClass {
     };
   }
 
-  getCompletionStats(): CompletionStats {
-    // Get stats from all stores
-    // Note: In real implementation, would integrate with actual stores
+  getCompletionStats(
+    selectedVerses: string[] = [],
+    notes: unknown[] = [],
+    devotionalsCompleted: number = 0,
+    lessonsCompleted: number = 0,
+    coursesEnrolled: number = 0,
+    coursesCompleted: number = 0
+  ): CompletionStats {
+    // Calculate verses read from selected verses
+    const versesRead = selectedVerses.length;
+
+    // Parse selected verses to calculate unique chapters and books
+    // Format: "OT-01-01-05" where OT/NT-bookNum-chapterNum-verseNum
+    const uniqueChapters = new Set<string>();
+    const uniqueBooks = new Set<string>();
+
+    selectedVerses.forEach((verseId) => {
+      const parts = verseId.split('-');
+      if (parts.length >= 3) {
+        const testament = parts[0]; // OT or NT
+        const bookNum = parts[1]; // book number
+        const chapterNum = parts[2]; // chapter number
+
+        // Store unique chapters as "testament-book-chapter"
+        uniqueChapters.add(`${testament}-${bookNum}-${chapterNum}`);
+        // Store unique books as "testament-book"
+        uniqueBooks.add(`${testament}-${bookNum}`);
+      }
+    });
+
+    // Calculate notes statistics
+    const notesArray = Array.isArray(notes) ? notes : [];
+    const notesCreated = notesArray.length;
+    const highlightsCreated = notesArray.filter(
+      (note: unknown) => {
+        const noteObj = note as Record<string, unknown>;
+        return noteObj?.highlightColor && noteObj.highlightColor !== 'none';
+      }
+    ).length;
+
     return {
-      booksCompleted: 0,
-      chaptersCompleted: 0,
-      versesRead: 0,
-      notesCreated: 0,
-      highlightsCreated: 0,
-      devotionalsCompleted: 0,
-      lessonsCompleted: 0,
-      coursesEnrolled: 0,
-      coursesCompleted: 0
+      booksCompleted: uniqueBooks.size,
+      chaptersCompleted: uniqueChapters.size,
+      versesRead: versesRead,
+      notesCreated: notesCreated,
+      highlightsCreated: highlightsCreated,
+      devotionalsCompleted: devotionalsCompleted,
+      lessonsCompleted: lessonsCompleted,
+      coursesEnrolled: coursesEnrolled,
+      coursesCompleted: coursesCompleted
     };
   }
 
