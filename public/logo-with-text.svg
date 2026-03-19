@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 200" width="500" height="200">
+  <defs>
+    <linearGradient id="textLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1d4ed8;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Icon section -->
+  <g>
+    <!-- Background circle -->
+    <circle cx="100" cy="100" r="90" fill="url(#textLogoGradient)"/>
+
+    <!-- Book -->
+    <g transform="translate(40, 40)">
+      <!-- Book spine -->
+      <rect x="55" y="8" width="12" height="120" fill="#1d4ed8" rx="2"/>
+
+      <!-- Left page -->
+      <path d="M 8 8 L 55 8 L 55 128 L 8 128 Q 2 128 2 122 L 2 14 Q 2 8 8 8"
+            fill="#ffffff" opacity="0.98"/>
+
+      <!-- Right page -->
+      <path d="M 67 8 L 114 8 Q 120 8 120 14 L 120 128 Q 120 128 120 128 L 67 128 Z"
+            fill="#f0f9ff" opacity="0.98"/>
+
+      <!-- Lines -->
+      <line x1="12" y1="28" x2="48" y2="28" stroke="#cbd5e1" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+      <line x1="12" y1="48" x2="50" y2="48" stroke="#cbd5e1" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+      <line x1="12" y1="68" x2="48" y2="68" stroke="#cbd5e1" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+      <line x1="72" y1="28" x2="108" y2="28" stroke="#cbd5e1" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+      <line x1="72" y1="48" x2="110" y2="48" stroke="#cbd5e1" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+      <line x1="72" y1="68" x2="108" y2="68" stroke="#cbd5e1" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
+
+      <!-- Cross -->
+      <circle cx="61" cy="115" r="10" fill="#2563eb" opacity="0.15"/>
+      <g transform="translate(61, 115)">
+        <line x1="0" y1="-6" x2="0" y2="6" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="-4" y1="0" x2="4" y2="0" stroke="#2563eb" stroke-width="1.5" stroke-linecap="round"/>
+      </g>
+    </g>
+  </g>
+
+  <!-- Text section -->
+  <g>
+    <!-- App name -->
+    <text x="210" y="85" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#1f2937">
+      Bible Study
+    </text>
+
+    <!-- Tagline -->
+    <text x="210" y="130" font-family="Arial, sans-serif" font-size="20" fill="#64748b">
+      For New Christians
+    </text>
+  </g>
+
+  <!-- Accent line -->
+  <line x="190" y="50" x="190" y="150" stroke="#2563eb" stroke-width="2" opacity="0.3"/>
+</svg>

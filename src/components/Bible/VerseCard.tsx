@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { useNotesStore } from '../../store/useNotesStore';
+import { useBibleStore } from '../../store/useBibleStore';
 
 interface VerseCardProps {
   verseNum: number;
@@ -8,6 +9,15 @@ interface VerseCardProps {
   onSelect: () => void;
   bookName: string;
   chapterNum: number;
+  isLoading?: boolean;
+  versions?: {
+    esv: string;
+    kjv: string;
+    niv?: string;
+    nkjv?: string;
+    nasb?: string;
+    csb?: string;
+  };
 }
 
 const HIGHLIGHT_COLORS = {
@@ -23,9 +33,20 @@ export default function VerseCard({
   isSelected,
   onSelect,
   bookName,
-  chapterNum
+  chapterNum,
+  isLoading = false,
+  versions
 }: VerseCardProps) {
   const notes = useNotesStore(state => state.notes);
+  const bibleVersion = useBibleStore(state => state.bibleVersion);
+
+  // Get the text for the selected version
+  const displayText = useMemo(() => {
+    if (versions && versions[bibleVersion]) {
+      return versions[bibleVersion];
+    }
+    return text; // fallback to original text
+  }, [versions, bibleVersion, text]);
 
   // Determine highlight color for this verse
   const highlightInfo = useMemo(() => {
@@ -78,6 +99,21 @@ export default function VerseCard({
     onSelect();
   };
 
+  // Show loading skeleton while fetching
+  if (isLoading) {
+    return (
+      <div className="p-3 rounded-lg border-l-4 bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-600">
+        <div className="flex gap-3 items-start">
+          <span className="font-bold text-sm text-slate-400 dark:text-slate-600 min-w-fit">{verseNum}.</span>
+          <div className="flex-1 space-y-2">
+            <div className="h-4 bg-slate-300 dark:bg-slate-700 rounded w-3/4 animate-pulse"></div>
+            <div className="h-4 bg-slate-300 dark:bg-slate-700 rounded w-1/2 animate-pulse"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Get highlight color for inline style
   let bgColor = '#f8fafc'; // default slate-50
   let borderColor = '#cbd5e1'; // default border-l-slate-300
@@ -118,7 +154,7 @@ export default function VerseCard({
       <div className="flex gap-3 items-start">
         <span className="font-bold text-sm text-slate-600 dark:text-slate-400 min-w-fit">{verseNum}.</span>
         <div className="flex-1">
-          <p className="text-sm leading-relaxed">{text}</p>
+          <p className="text-sm leading-relaxed">{displayText}</p>
           {highlightInfo?.hasNoteText && (
             <div className="mt-2 pt-2 border-t border-slate-300 dark:border-slate-600">
               <span className="inline-block bg-slate-200 dark:bg-slate-700 text-xs px-2 py-1 rounded text-slate-700 dark:text-slate-300">

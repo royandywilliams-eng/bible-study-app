@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useBibleStore } from '../../store/useBibleStore';
 import type { BibleBook, Verse } from '../../types/bible';
+import BibleService from '../../services/BibleService';
 import BookSelector from './BookSelector';
 import ChapterSelector from './ChapterSelector';
+import VersionSelector from './VersionSelector';
 import VerseList from './VerseList';
 
 interface BibleReaderProps {
@@ -37,9 +39,24 @@ export default function BibleReader({ isDarkMode = false }: BibleReaderProps) {
   useEffect(() => {
     if (!currentBook) return;
 
-    // Find the chapter in the current book
-    const chapter = currentBook.chapters.find(ch => ch.chapterNum === currentPassage.chapterNum);
-    setVerses(chapter?.verses || []);
+    const loadVerses = async () => {
+      setIsLoading(true);
+      try {
+        // Fetch verses from BibleService (API with cache/fallback)
+        const bookId = `${currentBook.testament}-${String(currentBook.bookNumber).padStart(2, '0')}`;
+        const fetchedVerses = await BibleService.getChapter(bookId, currentPassage.chapterNum);
+        setVerses(fetchedVerses || []);
+      } catch (error) {
+        console.error('Error loading verses:', error);
+        // Final fallback to local data
+        const chapter = currentBook.chapters.find(ch => ch.chapterNum === currentPassage.chapterNum);
+        setVerses(chapter?.verses || []);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadVerses();
   }, [currentBook, currentPassage.chapterNum]);
 
   const handleBookChange = (bookId: string) => {
@@ -132,7 +149,7 @@ export default function BibleReader({ isDarkMode = false }: BibleReaderProps) {
       <div className="bg-white dark:bg-slate-900 rounded-lg shadow-md p-6 mb-6">
         <h2 className="text-2xl font-bold mb-4">📖 Bible Reading</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <BookSelector
             books={bibleBooks}
             currentBook={currentBook}
@@ -143,6 +160,9 @@ export default function BibleReader({ isDarkMode = false }: BibleReaderProps) {
             currentChapter={currentPassage.chapterNum}
             onChapterChange={handleChapterChange}
           />
+          <div>
+            <VersionSelector compact={true} />
+          </div>
         </div>
 
         {/* Navigation buttons */}
@@ -178,6 +198,7 @@ export default function BibleReader({ isDarkMode = false }: BibleReaderProps) {
           bookNumber={currentBook.bookNumber}
           testament={currentBook.testament}
           isDarkMode={isDarkMode}
+          isLoading={isLoading}
         />
       </div>
     </div>

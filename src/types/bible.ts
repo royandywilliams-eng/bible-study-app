@@ -3,6 +3,14 @@ export type Testament = 'OT' | 'NT';
 export interface Verse {
   verseNum: number;
   text: string;
+  versions?: {
+    esv: string;
+    kjv: string;
+    niv?: string;
+    nkjv?: string;
+    nasb?: string;
+    csb?: string;
+  };
 }
 
 export interface Chapter {

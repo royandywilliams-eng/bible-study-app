@@ -1,3 +1,5 @@
+import VersionSelector from '../Bible/VersionSelector';
+
 interface HeaderProps {
   isDarkMode: boolean;
   onThemeChange: (isDark: boolean) => void;
@@ -12,7 +14,10 @@ export default function Header({ isDarkMode, onThemeChange }: HeaderProps) {
             <span className="text-2xl">📖</span>
             <h1 className="text-2xl font-bold">Bible Study App</h1>
           </div>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-6">
+            <div className="hidden md:block">
+              <VersionSelector compact={true} />
+            </div>
             <button
               onClick={() => onThemeChange(!isDarkMode)}
               className="p-2 rounded-lg hover:bg-blue-700 transition-colors"

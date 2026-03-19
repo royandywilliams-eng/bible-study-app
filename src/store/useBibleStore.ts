@@ -15,7 +15,9 @@ interface BibleStoreState {
   bibleBooks: BibleBook[];
   currentPassage: CurrentPassage;
   selectedVerses: string[]; // Array of passage IDs like "OT-01-01-05"
-  bibleVersion: 'esv' | 'kjv';
+  bibleVersion: 'esv' | 'kjv' | 'niv' | 'nkjv' | 'nasb' | 'csb';
+  isOffline: boolean;
+  isLoadingChapter: boolean;
 
   // Actions
   setBibleBooks: (books: BibleBook[]) => void;
@@ -24,7 +26,9 @@ interface BibleStoreState {
   setSelectedVerses: (verseIds: string[]) => void;
   toggleVerseSelection: (verseId: string) => void;
   clearSelection: () => void;
-  setBibleVersion: (version: 'esv' | 'kjv') => void;
+  setBibleVersion: (version: 'esv' | 'kjv' | 'niv' | 'nkjv' | 'nasb' | 'csb') => void;
+  setOfflineStatus: (offline: boolean) => void;
+  setLoadingChapter: (loading: boolean) => void;
 }
 
 const initialPassage: CurrentPassage = {
@@ -37,61 +41,75 @@ const initialPassage: CurrentPassage = {
 
 export const useBibleStore = create<BibleStoreState>()(
   persist(
-    (set) => ({
-      bibleBooks: [],
-      currentPassage: initialPassage,
-      selectedVerses: [],
-      bibleVersion: 'esv',
+    (set) => {
+      // Initialize online/offline listener
+      if (typeof window !== 'undefined') {
+        window.addEventListener('online', () => set({ isOffline: false }));
+        window.addEventListener('offline', () => set({ isOffline: true }));
+      }
 
-      setBibleBooks: (books) => set({ bibleBooks: books }),
+      return {
+        bibleBooks: [],
+        currentPassage: initialPassage,
+        selectedVerses: [],
+        bibleVersion: 'esv',
+        isOffline: typeof window !== 'undefined' ? !navigator.onLine : false,
+        isLoadingChapter: false,
 
-      initializeBibleData: async () => {
-        try {
-          // Import the generated Bible data
-          const { generateSampleBibleData } = await import('../data/bibleData');
-          const books = generateSampleBibleData();
-          set({ bibleBooks: books });
-        } catch (error) {
-          console.error('Failed to load Bible data:', error);
-          throw error;
-        }
-      },
+        setBibleBooks: (books) => set({ bibleBooks: books }),
 
-      setCurrentPassage: (passage) => set({ currentPassage: passage }),
+        initializeBibleData: async () => {
+          try {
+            // Import the generated Bible data
+            const { generateSampleBibleData } = await import('../data/bibleData');
+            const books = generateSampleBibleData();
+            set({ bibleBooks: books });
+          } catch (error) {
+            console.error('Failed to load Bible data:', error);
+            throw error;
+          }
+        },
 
-      setSelectedVerses: (verseIds) => {
-        set({ selectedVerses: verseIds });
-        // Update progress stats
-        ProgressService.calculateAndStoreStats(verseIds, []).catch(error => {
-          console.error('Failed to update stats:', error);
-        });
-      },
+        setCurrentPassage: (passage) => set({ currentPassage: passage }),
 
-      toggleVerseSelection: (verseId) =>
-        set((state) => {
-          const isSelected = state.selectedVerses.includes(verseId);
-          const updatedVerses = isSelected
-            ? state.selectedVerses.filter((id) => id !== verseId)
-            : [...state.selectedVerses, verseId];
-
+        setSelectedVerses: (verseIds) => {
+          set({ selectedVerses: verseIds });
           // Update progress stats
-          ProgressService.calculateAndStoreStats(updatedVerses, []).catch(error => {
+          ProgressService.calculateAndStoreStats(verseIds, []).catch(error => {
             console.error('Failed to update stats:', error);
           });
+        },
 
-          return { selectedVerses: updatedVerses };
-        }),
+        toggleVerseSelection: (verseId) =>
+          set((state) => {
+            const isSelected = state.selectedVerses.includes(verseId);
+            const updatedVerses = isSelected
+              ? state.selectedVerses.filter((id) => id !== verseId)
+              : [...state.selectedVerses, verseId];
 
-      clearSelection: () => {
-        set({ selectedVerses: [] });
-        // Update progress stats
-        ProgressService.calculateAndStoreStats([], []).catch(error => {
-          console.error('Failed to update stats:', error);
-        });
-      },
+            // Update progress stats
+            ProgressService.calculateAndStoreStats(updatedVerses, []).catch(error => {
+              console.error('Failed to update stats:', error);
+            });
 
-      setBibleVersion: (version) => set({ bibleVersion: version }),
-    }),
+            return { selectedVerses: updatedVerses };
+          }),
+
+        clearSelection: () => {
+          set({ selectedVerses: [] });
+          // Update progress stats
+          ProgressService.calculateAndStoreStats([], []).catch(error => {
+            console.error('Failed to update stats:', error);
+          });
+        },
+
+        setBibleVersion: (version) => set({ bibleVersion: version }),
+
+        setOfflineStatus: (offline) => set({ isOffline: offline }),
+
+        setLoadingChapter: (loading) => set({ isLoadingChapter: loading }),
+      };
+    },
     {
       name: 'bible-store',
       version: 1,

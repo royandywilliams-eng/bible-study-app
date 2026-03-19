@@ -13,7 +13,9 @@ class BibleService {
   private static instance: BibleService;
   private books: BibleBook[] = [];
 
-  private constructor() {}
+  private constructor() {
+    // No initialization needed
+  }
 
   static getInstance(): BibleService {
     if (!BibleService.instance) {
@@ -39,13 +41,19 @@ class BibleService {
   async getChapter(bookId: string, chapterNum: number): Promise<Verse[]> {
     const book = await this.getBook(bookId);
     if (!book) return [];
+
     const chapter = book.chapters.find(ch => ch.chapterNum === chapterNum);
     return chapter ? chapter.verses : [];
   }
 
-  async getVerse(bookId: string, chapterNum: number, verseNum: number): Promise<string> {
+  async getVerse(bookId: string, chapterNum: number, verseNum: number, version: string = 'esv'): Promise<string> {
     const verses = await this.getChapter(bookId, chapterNum);
     const verse = verses.find(v => v.verseNum === verseNum);
+
+    if (verse?.versions && version in verse.versions) {
+      return verse.versions[version as keyof typeof verse.versions] || verse.text || '';
+    }
+
     return verse?.text || '';
   }
 

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <!-- Background -->
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1d4ed8;stop-opacity:1" />
+    </linearGradient>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+
+  <rect width="400" height="400" fill="url(#logoGradient)" rx="56"/>
+
+  <!-- Book illustration -->
+  <g transform="translate(70, 60)" filter="url(#shadow)">
+    <!-- Book spine/binding -->
+    <rect x="110" y="16" width="24" height="240" fill="#1d4ed8" rx="3"/>
+
+    <!-- Left page -->
+    <path d="M 16 16 L 110 16 L 110 256 L 16 256 Q 4 256 4 244 L 4 28 Q 4 16 16 16"
+          fill="#ffffff"/>
+
+    <!-- Right page -->
+    <path d="M 134 16 L 228 16 Q 240 16 240 28 L 240 256 Q 240 256 240 256 L 134 256 Z"
+          fill="#f0f9ff"/>
+
+    <!-- Text lines - left page -->
+    <line x1="24" y1="56" x2="96" y2="56" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round" opacity="0.8"/>
+    <line x1="24" y1="96" x2="100" y2="96" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round" opacity="0.8"/>
+    <line x1="24" y1="136" x2="96" y2="136" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round" opacity="0.8"/>
+    <line x1="24" y1="176" x2="90" y2="176" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
+    <line x1="24" y1="216" x2="84" y2="216" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round" opacity="0.6"/>
+
+    <!-- Text lines - right page -->
+    <line x1="144" y1="56" x2="216" y2="56" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round" opacity="0.8"/>
+    <line x1="144" y1="96" x2="220" y2="96" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round" opacity="0.8"/>
+    <line x1="144" y1="136" x2="216" y2="136" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round" opacity="0.8"/>
+    <line x1="144" y1="176" x2="210" y2="176" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
+    <line x1="144" y1="216" x2="204" y2="216" stroke="#cbd5e1" stroke-width="5" stroke-linecap="round" opacity="0.6"/>
+
+    <!-- Cross symbol in center -->
+    <circle cx="122" cy="230" r="20" fill="#2563eb" opacity="0.15"/>
+    <g transform="translate(122, 230)">
+      <line x1="0" y1="-12" x2="0" y2="12" stroke="#2563eb" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+      <line x1="-12" y1="0" x2="12" y2="0" stroke="#2563eb" stroke-width="3" stroke-linecap="round" opacity="0.9"/>
+    </g>
+  </g>
+
+  <!-- Corner accent -->
+  <circle cx="40" cy="40" r="16" fill="#ffffff" opacity="0.2"/>
+  <circle cx="360" cy="360" r="16" fill="#ffffff" opacity="0.15"/>
+</svg>

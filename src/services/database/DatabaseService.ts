@@ -12,6 +12,14 @@ interface BibleDB extends DBSchema {
       'by-book-name': string;
     };
   };
+  cachedVerses: {
+    key: string;
+    value: {
+      key: string;
+      text: string;
+      timestamp: number;
+    };
+  };
   devotionals: {
     key: string;
     value: {
@@ -164,6 +172,11 @@ class DatabaseService {
           bibleStore.createIndex('by-testament', 'testament');
           bibleStore.createIndex('by-book-number', 'bookNumber');
           bibleStore.createIndex('by-book-name', 'bookName');
+        }
+
+        // Cached Verses store
+        if (!db.objectStoreNames.contains('cachedVerses')) {
+          db.createObjectStore('cachedVerses', { keyPath: 'key' });
         }
 
         // Devotionals store
@@ -344,6 +357,45 @@ class DatabaseService {
     const tx = db.transaction(stores, 'readwrite');
     for (const store of stores) {
       await tx.objectStore(store).clear();
+    }
+    await tx.done;
+  }
+
+  async cacheVerse(key: string, text: string): Promise<void> {
+    const db = await this.getDB();
+    await db.put('cachedVerses', {
+      key,
+      text,
+      timestamp: Date.now(),
+    });
+  }
+
+  async getCachedVerse(key: string): Promise<string | null> {
+    const db = await this.getDB();
+    const cached = await db.get('cachedVerses', key);
+    if (!cached) return null;
+
+    // Check if cache is expired (30-day TTL)
+    const CACHE_TTL = 30 * 24 * 60 * 60 * 1000;
+    if (Date.now() - cached.timestamp > CACHE_TTL) {
+      await db.delete('cachedVerses', key);
+      return null;
+    }
+
+    return cached.text;
+  }
+
+  async clearExpiredCache(): Promise<void> {
+    const db = await this.getDB();
+    const allCached = await db.getAll('cachedVerses');
+    const CACHE_TTL = 30 * 24 * 60 * 60 * 1000;
+    const now = Date.now();
+
+    const tx = db.transaction('cachedVerses', 'readwrite');
+    for (const cached of allCached) {
+      if (now - cached.timestamp > CACHE_TTL) {
+        await tx.store.delete(cached.key);
+      }
     }
     await tx.done;
   }

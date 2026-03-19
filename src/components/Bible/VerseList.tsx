@@ -11,6 +11,7 @@ interface VerseListProps {
   bookNumber: number;
   testament: Testament;
   isDarkMode?: boolean;
+  isLoading?: boolean;
 }
 
 export default function VerseList({
@@ -19,7 +20,8 @@ export default function VerseList({
   chapterNum,
   bookNumber,
   testament,
-  isDarkMode = false
+  isDarkMode = false,
+  isLoading = false
 }: VerseListProps) {
   const { selectedVerses, toggleVerseSelection } = useBibleStore();
 
@@ -61,6 +63,8 @@ export default function VerseList({
                 onSelect={() => toggleVerseSelection(verseId)}
                 bookName={bookName}
                 chapterNum={chapterNum}
+                isLoading={isLoading}
+                versions={verse.versions}
               />
               <div className="ml-4">
                 <VerseHighlight result={searchResult} isDarkMode={isDarkMode} />
