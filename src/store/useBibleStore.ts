@@ -42,8 +42,28 @@ const initialPassage: CurrentPassage = {
 export const useBibleStore = create<BibleStoreState>()(
   persist(
     (set) => {
-      // Initialize online/offline listener
+      // Clear local storage to remove any potentially corrupted data
       if (typeof window !== 'undefined') {
+        // Check if we need to clean up corrupted data
+        const storedData = localStorage.getItem('bible-store');
+        if (storedData) {
+          try {
+            const parsed = JSON.parse(storedData);
+            // If bibleBooks exists but is empty or corrupted, clear it
+            if (parsed.state?.bibleBooks && Array.isArray(parsed.state.bibleBooks)) {
+              const books = parsed.state.bibleBooks;
+              // Check for data corruption - e.g., Genesis marked as NT
+              const genesis = books.find((b: any) => b.bookName === 'Genesis');
+              if (genesis && genesis.testament === 'NT') {
+                console.warn('⚠️ Detected corrupted Bible data - Genesis marked as NT. Clearing corrupted cache.');
+                localStorage.removeItem('bible-store');
+              }
+            }
+          } catch (e) {
+            console.warn('Could not validate stored Bible data:', e);
+          }
+        }
+
         window.addEventListener('online', () => set({ isOffline: false }));
         window.addEventListener('offline', () => set({ isOffline: true }));
       }
@@ -63,9 +83,43 @@ export const useBibleStore = create<BibleStoreState>()(
             // Import the generated Bible data
             const { generateSampleBibleData } = await import('../data/bibleData');
             const books = generateSampleBibleData();
+
+            // Validate the data - ensure testament classification is correct
+            books.forEach(book => {
+              if (!book.testament || !['OT', 'NT'].includes(book.testament)) {
+                console.error(`Invalid testament for book: ${book.bookName}`, book);
+                throw new Error(`Invalid testament for book ${book.bookName}`);
+              }
+
+              // Validate each chapter
+              book.chapters.forEach(chapter => {
+                chapter.verses.forEach(verse => {
+                  if (!verse.text) {
+                    console.error(`Empty verse text for ${book.bookName} ${chapter.chapterNum}:${verse.verseNum}`);
+                  }
+                });
+              });
+            });
+
+            // Log Genesis 1:1 for debugging
+            const genesisBook = books.find(b => b.bookName === 'Genesis');
+            if (genesisBook) {
+              const verse = genesisBook.chapters[0]?.verses[0];
+              console.log(`✓ Genesis 1:1 loaded correctly - Testament: ${genesisBook.testament}, Text: ${verse?.text}`);
+            }
+
             set({ bibleBooks: books });
           } catch (error) {
             console.error('Failed to load Bible data:', error);
+            // Clear local storage if data is corrupted
+            if (typeof window !== 'undefined') {
+              try {
+                localStorage.removeItem('bible-store');
+                console.log('Cleared corrupted bible-store from local storage');
+              } catch (e) {
+                console.error('Failed to clear local storage:', e);
+              }
+            }
             throw error;
           }
         },
