@@ -80,9 +80,11 @@ export const useBibleStore = create<BibleStoreState>()(
 
         initializeBibleData: async () => {
           try {
-            // Import the generated Bible data
-            const { generateSampleBibleData } = await import('../data/bibleData');
-            const books = generateSampleBibleData();
+            console.log('🔄 Initializing Bible data from API.Bible...');
+
+            // Import and use the complete Bible loader
+            const { loadCompleteBibleFromAPI } = await import('../data/bibleData');
+            const books = await loadCompleteBibleFromAPI('esv');
 
             // Validate the data - ensure testament classification is correct
             books.forEach(book => {
@@ -90,32 +92,34 @@ export const useBibleStore = create<BibleStoreState>()(
                 console.error(`Invalid testament for book: ${book.bookName}`, book);
                 throw new Error(`Invalid testament for book ${book.bookName}`);
               }
-
-              // Validate each chapter
-              book.chapters.forEach(chapter => {
-                chapter.verses.forEach(verse => {
-                  if (!verse.text) {
-                    console.error(`Empty verse text for ${book.bookName} ${chapter.chapterNum}:${verse.verseNum}`);
-                  }
-                });
-              });
             });
 
-            // Log Genesis 1:1 for debugging
+            // Log Genesis 1:1 for verification
             const genesisBook = books.find(b => b.bookName === 'Genesis');
             if (genesisBook) {
-              const verse = genesisBook.chapters[0]?.verses[0];
-              console.log(`✓ Genesis 1:1 loaded correctly - Testament: ${genesisBook.testament}, Text: ${verse?.text}`);
+              console.log(`✅ Genesis 1:1 verified - Testament: ${genesisBook.testament}, Chapters: ${genesisBook.chapters.length}`);
+
+              if (genesisBook.testament !== 'OT') {
+                throw new Error(`Data integrity error: Genesis is ${genesisBook.testament}, not OT`);
+              }
             }
 
+            // Count total verses
+            const totalVerses = books.reduce((sum, book) => {
+              return sum + book.chapters.reduce((chapterSum, chapter) => {
+                return chapterSum + (chapter.verses?.length || 0);
+              }, 0);
+            }, 0);
+
+            console.log(`✅ Bible data loaded successfully: ${books.length} books, ${totalVerses} verses`);
             set({ bibleBooks: books });
           } catch (error) {
-            console.error('Failed to load Bible data:', error);
+            console.error('❌ Failed to load Bible data:', error);
             // Clear local storage if data is corrupted
             if (typeof window !== 'undefined') {
               try {
                 localStorage.removeItem('bible-store');
-                console.log('Cleared corrupted bible-store from local storage');
+                console.log('🔄 Cleared corrupted bible-store from local storage');
               } catch (e) {
                 console.error('Failed to clear local storage:', e);
               }

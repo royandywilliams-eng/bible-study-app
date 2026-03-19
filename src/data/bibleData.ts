@@ -487,6 +487,10 @@ function generateSampleChapters(bookName: string, testament: 'OT' | 'NT', chapte
   }));
 }
 
+/**
+ * DEPRECATED: Use loadCompleteBibleFromAPI() instead
+ * Kept for backward compatibility, generates sample data with limited chapters
+ */
 export function generateSampleBibleData(): BibleBook[] {
   return BIBLE_BOOKS_METADATA.map((meta) => ({
     id: `${meta.testament}-${String(meta.bookNumber).padStart(2, '0')}`,
@@ -496,6 +500,16 @@ export function generateSampleBibleData(): BibleBook[] {
     totalChapters: meta.totalChapters,
     chapters: generateSampleChapters(meta.bookName, meta.testament, Math.min(meta.totalChapters, 3)), // Limit to 3 chapters for demo
   }));
+}
+
+/**
+ * Load complete Bible from API.Bible with ALL chapters and verses
+ * Returns a Promise that resolves to the complete BibleBook array
+ */
+export async function loadCompleteBibleFromAPI(version: 'esv' | 'kjv' | 'niv' | 'nkjv' | 'nasb' | 'csb' = 'esv'): Promise<BibleBook[]> {
+  // Dynamic import to avoid circular dependencies
+  const { CompleteBibleLoader } = await import('../services/CompleteBibleLoader');
+  return CompleteBibleLoader.loadCompleteBible(version);
 }
 
 export const BIBLE_BOOKS_LIST = BIBLE_BOOKS_METADATA;

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Genesis 1:1 Test</title>
+</head>
+<body>
+    <h1>Genesis 1:1 Data Validation Test</h1>
+    <div id="results"></div>
+
+    <script type="module">
+        // Dynamically load and test the Bible data
+        async function testGenesis() {
+            try {
+                const module = await import('./dist/assets/bibleData-BPozS5b6.js');
+                const generateSampleBibleData = module.generateSampleBibleData;
+                
+                const books = generateSampleBibleData();
+                const genesis = books.find(b => b.bookName === 'Genesis');
+                
+                const results = document.getElementById('results');
+                
+                if (!genesis) {
+                    results.innerHTML = '<p style="color: red;">❌ Genesis book not found!</p>';
+                    return;
+                }
+
+                const chapter1 = genesis.chapters?.[0];
+                const verse1 = chapter1?.verses?.[0];
+
+                let html = `
+                    <h2>Genesis Book Data:</h2>
+                    <ul>
+                        <li><strong>Book Name:</strong> ${genesis.bookName}</li>
+                        <li><strong>Testament:</strong> <span style="color: ${genesis.testament === 'OT' ? 'green' : 'red'}; font-weight: bold;">${genesis.testament}</span></li>
+                        <li><strong>Book Number:</strong> ${genesis.bookNumber}</li>
+                        <li><strong>Total Chapters:</strong> ${genesis.totalChapters}</li>
+                    </ul>
+
+                    <h2>Genesis 1:1 Verse Data:</h2>
+                    <ul>
+                        <li><strong>Verse Number:</strong> ${verse1?.verseNum}</li>
+                        <li><strong>Text:</strong> "${verse1?.text}"</li>
+                    </ul>
+
+                    <h2>Validation:</h2>
+                    <ul>
+                        <li>${genesis.testament === 'OT' ? '✅' : '❌'} Testament is correctly set to OT (not NT)</li>
+                        <li>${verse1?.text?.includes('beginning') && verse1?.text?.includes('created') ? '✅' : '❌'} Genesis 1:1 text is correct</li>
+                        <li>${verse1?.text?.includes('Word') ? '❌ ERROR: Genesis 1:1 has John 1:1 text!' : '✅'} Text is not corrupted with John 1:1</li>
+                    </ul>
+                `;
+                
+                results.innerHTML = html;
+                console.log('Genesis Book:', genesis);
+                console.log('Genesis 1:1 Verse:', verse1);
+            } catch (error) {
+                document.getElementById('results').innerHTML = `<p style="color: red;">Error loading data: ${error.message}</p>`;
+                console.error('Error:', error);
+            }
+        }
+
+        testGenesis();
+    </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background: #f5f5f5;
+        }
+        h1 { color: #333; }
+        h2 { color: #666; margin-top: 2rem; }
+        ul { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        li { margin: 0.5rem 0; line-height: 1.6; }
+        strong { color: #333; }
+    </style>
+</body>
+</html>

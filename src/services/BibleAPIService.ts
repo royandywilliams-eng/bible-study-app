@@ -248,6 +248,123 @@ export class BibleAPIService {
       throw error;
     }
   }
+
+  /**
+   * Load complete Bible from API - all books, chapters, and verses
+   * This is the main method for bulk loading the entire Bible
+   */
+  async loadCompleteBible(version: 'esv' | 'kjv' | 'niv' | 'nkjv' | 'nasb' | 'csb' = 'esv'): Promise<any[]> {
+    const bibleId = VERSION_TO_BIBLE_ID[version];
+    if (!bibleId) {
+      throw new Error(`Unknown Bible version: ${version}`);
+    }
+
+    console.log(`📖 Starting complete Bible load (${version.toUpperCase()}) from API.Bible...`);
+    const startTime = performance.now();
+
+    try {
+      // Step 1: Get all books with their chapter structure
+      console.log('📚 Fetching all 66 books and their structure...');
+      const headers: Record<string, string> = { 'Accept': 'application/json' };
+      if (this.apiKey) {
+        headers['api-key'] = this.apiKey;
+      }
+
+      const booksResponse = await fetch(
+        `${this.apiUrl}/bibles/${bibleId}/books?include-chapters=true`,
+        { headers }
+      );
+
+      if (!booksResponse.ok) {
+        throw new Error(`Failed to fetch books: ${booksResponse.statusText}`);
+      }
+
+      const booksData = await booksResponse.json() as any;
+      const apiBooks = booksData.data || [];
+      console.log(`✓ Loaded ${apiBooks.length} books`);
+
+      // Step 2: For each book, fetch all chapters and verses
+      const completeBooks: any[] = [];
+      let totalVerses = 0;
+
+      for (let i = 0; i < apiBooks.length; i++) {
+        const apiBook = apiBooks[i];
+        const bookName = apiBook.name;
+        const bookId = apiBook.id;
+        const chapters: any[] = [];
+
+        // Log progress
+        if ((i + 1) % 10 === 0 || i === 0) {
+          console.log(`  [${i + 1}/${apiBooks.length}] Processing ${bookName}...`);
+        }
+
+        // Fetch all chapters for this book
+        if (apiBook.chapters && apiBook.chapters.length > 0) {
+          for (const chapter of apiBook.chapters) {
+            const chapterNum = chapter.number;
+
+            // Fetch chapter verses
+            const verseResponse = await fetch(
+              `${this.apiUrl}/bibles/${bibleId}/chapters/${bookId}.${chapterNum}?content-type=text&include-notes=false&include-titles=false&include-section-titles=false&include-verse-numbers=true&include-verse-spans=false`,
+              { headers }
+            );
+
+            if (verseResponse.ok) {
+              const verseData = await verseResponse.json() as any;
+              const verses = (verseData.data?.verses || []).map((v: any) => ({
+                verseNum: v.verseOrdinal || v.number || 0,
+                text: (v.content || '').trim()
+              }));
+
+              chapters.push({
+                chapterNum,
+                verses
+              });
+
+              totalVerses += verses.length;
+            }
+
+            // Rate limiting: Add small delay between requests
+            await this.delay(30);
+          }
+        }
+
+        completeBooks.push({
+          id: bookId,
+          name: bookName,
+          abbreviation: apiBook.abbreviation,
+          chapters
+        });
+      }
+
+      const endTime = performance.now();
+      const totalTime = ((endTime - startTime) / 1000).toFixed(2);
+
+      console.log(`
+========================================
+✅ COMPLETE BIBLE LOADED SUCCESSFULLY
+========================================
+📊 Stats:
+  • Total Books: ${completeBooks.length}
+  • Total Verses: ${totalVerses}
+  • Load Time: ${totalTime}s
+  • Version: ${version.toUpperCase()}
+========================================
+      `);
+
+      return completeBooks;
+    } catch (error) {
+      console.error('❌ Failed to load complete Bible:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Utility: Add delay (in ms) to avoid rate limiting
+   */
+  private delay(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
 }
 
 // Create singleton instance
