@@ -1,10 +1,50 @@
 /**
  * Fallback Bible Loader
- * Provides complete 66-book Bible structure with sample verses
+ * Provides complete 66-book Bible structure with real sample verses
  * Used when API.Bible is unavailable or API key is invalid
  */
 
 import type { BibleBook } from '../types/bible';
+
+// Real sample verses for popular passages
+const SAMPLE_VERSES: Record<string, Record<number, Record<number, string>>> = {
+  'Genesis': {
+    1: {
+      1: 'In the beginning, God created the heavens and the earth.',
+      27: 'So God created mankind in his own image, in the image of God he created them; male and female he created them.'
+    },
+    2: {
+      2: 'By the seventh day God had finished the work he had been doing; so on the seventh day he rested from all his work.',
+      3: 'Then God blessed the seventh day and made it holy, because on it he rested from all the work of creating that he had done.'
+    }
+  },
+  'Psalms': {
+    23: {
+      1: 'The Lord is my shepherd, I lack nothing.'
+    }
+  },
+  'John': {
+    3: {
+      16: 'For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.'
+    },
+    1: {
+      1: 'In the beginning was the Word, and the Word was with God, and the Word was God.'
+    }
+  },
+  'Matthew': {
+    5: {
+      3: 'Blessed are the poor in spirit, for theirs is the kingdom of heaven.'
+    }
+  },
+  'Romans': {
+    3: {
+      23: 'for all have sinned and fall short of the glory of God,'
+    },
+    6: {
+      23: 'For the wages of sin is death, but the gift of God is eternal life in Christ Jesus our Lord.'
+    }
+  }
+};
 
 const BOOK_METADATA = [
   // Old Testament (39 books)
@@ -90,10 +130,15 @@ export async function loadFallbackBible(): Promise<BibleBook[]> {
       totalChapters: meta.chapters,
       chapters: Array.from({ length: Math.min(meta.chapters, 3) }, (_, chIdx) => ({
         chapterNum: chIdx + 1,
-        verses: Array.from({ length: 20 + Math.floor(Math.random() * 30) }, (_, verseIdx) => ({
-          verseNum: verseIdx + 1,
-          text: `[Sample] ${meta.name} ${chIdx + 1}:${verseIdx + 1}`
-        }))
+        verses: Array.from({ length: 20 + Math.floor(Math.random() * 30) }, (_, verseIdx) => {
+          const verseNum = verseIdx + 1;
+          // Check if we have a real sample verse
+          const realVerse = SAMPLE_VERSES[meta.name]?.[chIdx + 1]?.[verseNum];
+          return {
+            verseNum,
+            text: realVerse || `[Sample] ${meta.name} ${chIdx + 1}:${verseNum}`
+          };
+        })
       }))
     };
   });

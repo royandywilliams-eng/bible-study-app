@@ -82,17 +82,16 @@ export const useBibleStore = create<BibleStoreState>()(
           try {
             console.log('🔄 Initializing Bible data...');
 
-            // Try to load from API.Bible first
+            // Load complete Bible from fallback (reliable source)
             let books;
             try {
-              console.log('📡 Attempting to load from API.Bible...');
-              const { loadCompleteBibleFromAPI } = await import('../data/bibleData');
-              books = await loadCompleteBibleFromAPI('esv');
-              console.log('✅ Successfully loaded from API.Bible!');
-            } catch (apiError) {
-              console.warn('⚠️ API.Bible unavailable, loading fallback data...');
+              console.log('📚 Loading complete Bible structure...');
               const { loadFallbackBible } = await import('../services/FallbackBibleLoader');
               books = await loadFallbackBible();
+              console.log('✅ Bible structure loaded successfully!');
+            } catch (fallbackError) {
+              console.error('❌ Failed to load Bible data:', fallbackError);
+              throw fallbackError;
             }
 
             // Validate the data - ensure testament classification is correct
